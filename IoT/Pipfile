@@ -12,9 +12,12 @@ pymongo = "*"
 dnspython = "*"
 paho-mqtt = "*"
 psutil = "*"
+djangorestframework = "*"
 
 [requires]
 python_version = "3.6"
 
 [scripts]
-sub = "python3 sub.py"
+server = "python3 manage.py runserver"
+migrate = "python3 manage.py migrate"
+makemigrations = "python3 manage.py makemigrations"

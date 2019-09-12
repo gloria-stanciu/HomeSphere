@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'api.apps.ApiConfig',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -80,7 +82,7 @@ DATABASES = {
         'HOST': 'mongodb+srv://<homesphere>:<homesph3r3>@cluster0-npsaf.mongodb.net/test?retryWrites=true&w=majority',
         'USER': 'homesphere',
         'PASSWORD': 'homesph3r3',
-            }
+        }
 }
 
 
