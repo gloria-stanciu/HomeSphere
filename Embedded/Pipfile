@@ -15,7 +15,5 @@ paho-mqtt = "*"
 python_version = "3.6"
 
 [scripts]
-rsbCode = "python3 rsbCode.py"
-mqtt ="python3 mqtt.py"
-pub = "python3 pub.py"
-sub = "python3 sub.py"
+listen = "python3 listener.py"
+publish = "python3 publisher.py"
