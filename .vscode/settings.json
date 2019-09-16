@@ -1,0 +1,7 @@
+{
+  "python.venvFolders": [
+    "Embedded",
+    "IoT"
+  ],
+  "python.pythonPath": "/usr/bin/python3"
+}
