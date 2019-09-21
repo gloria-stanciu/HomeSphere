@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "627e17f77dbb518122d4cdb67b53012ab764e818a848f43e165c1b59db0c0ed4"
+            "sha256": "f112e916e07e620b4b723cae2c033ced8d4020cf72793f13435ca3ee70264482"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -54,6 +54,14 @@
             ],
             "index": "pypi",
             "version": "==1.16.0"
+        },
+        "mongoengine": {
+            "hashes": [
+                "sha256:9301ca84ada9377a200a50541f9be7d5308081bf2112049d00e1dd163f80b940",
+                "sha256:fa3e73c966fca2b814cc1103ac4f55bcca7aae05028b112ef0cc8b321ee4a2f7"
+            ],
+            "index": "pypi",
+            "version": "==0.18.2"
         },
         "paho-mqtt": {
             "hashes": [
@@ -117,6 +125,13 @@
                 "sha256:c894d57500a4cd2d5c71114aaab77dbab5eabd9022308ce5ac9bb93a60a6f0c7"
             ],
             "version": "==2019.2"
+        },
+        "six": {
+            "hashes": [
+                "sha256:3350809f0555b11f552448330d0b52d5f24c91a322ea4a15ef22629740f3761c",
+                "sha256:d16a0141ec1a18405cd4ce8b4613101da75da0e9a7aec5bdd4fa804d0e0eba73"
+            ],
+            "version": "==1.12.0"
         },
         "sqlparse": {
             "hashes": [

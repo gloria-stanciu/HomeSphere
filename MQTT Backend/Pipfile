@@ -6,14 +6,10 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-psutil = "*"
-smbus2 = "*"
-bme280 = "*"
 paho-mqtt = "*"
 
 [requires]
 python_version = "3.6"
 
 [scripts]
-listen = "python3 listener.py"
-publish = "python3 publisher.py"
+publish = "python3 main.py"
