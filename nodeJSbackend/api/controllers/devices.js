@@ -38,7 +38,7 @@ exports.devices_get_all = (req, res, next) => {
 exports.devices_create_device = (req, res, next) => {
     
     const device = new Device({
-        _id: mongoose.Types.ObjectId(),
+        _id: req.body._id,
         deviceName: req.body.deviceName,
         location: req.body.location,
         sensor: req.body.sensor
@@ -128,11 +128,6 @@ exports.devices_delete_device = (req, res, next) =>{
                 request: {
                     type: 'POST',
                     url: "http://localhost:3000/devices",
-                    body:{
-                        sensorId: 'ID',
-                        deviceName: 'String',
-                        location: 'String'
-                    }
                 }
             });
         })
