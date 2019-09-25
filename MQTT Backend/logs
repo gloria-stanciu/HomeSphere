@@ -1,0 +1,4 @@
+home/hw/data	 {"cpu_usage": 75.0, "ram_total": 8267.0, "ram_used": 5867.1, "ram_free": 2170.5, "disk_total": 390.02441024780273, "disk_used": 323.2814178466797, "disk_free": 66.74299240112305, "timestamp": "2019-09-24T15:40:30.718634"}
+home/hw/data	 {"cpu_usage": 16.7, "ram_used": 6312.6, "ram_free": 1725.0, "disk_used": 323.28174209594727, "disk_free": 66.74266815185547, "timestamp": "2019-09-24T16:42:13.281370"}
+home/hw/data	 {"cpu_usage": 28.6, "ram_used": 6244.1, "ram_free": 1793.5, "disk_used": 323.28046798706055, "disk_free": 66.74394226074219, "timestamp": "2019-09-24T17:03:21.780563"}
+home/hw/data/raspi3-001	 {"cpu_usage": 16.7, "ram_used": 6076.6, "ram_free": 1961.0, "disk_used": 323.2784996032715, "disk_free": 66.74591064453125, "timestamp": "2019-09-24T17:08:23.827463"}

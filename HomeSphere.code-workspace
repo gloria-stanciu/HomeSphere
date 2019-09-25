@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "Embedded"
+		},
+		{
+			"path": "MQTT Backend"
+		},
+		{
+			"path": "nodeJSbackend"
+		}
+	],
+	"settings": {}
+}
