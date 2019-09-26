@@ -69,30 +69,50 @@ exports.devices_create_device = (req, res, next) => {
 }
 
 exports.devices_get_device = (req, res, next) =>{
-    Device.findById(req.params.deviceId)
-    .populate('sensor')
-    .exec()
-    .then(device => {
-        if(!device){
-            return res.status(404).json({
-                message: 'Device not found'
-            });
-        }
-        res.status(200).json({
-            device: device,
-            request: {
-                type: "GET",
-                url: "http://localhost:3000/devices"
+    const id = req.params.deviceId
+    Device.findById(id)
+        .populate('sensor')
+        .exec()
+        .then(device => {
+            if(!device){
+                return res.status(404).json({
+                    message: 'Device not found'
+                });
             }
-        });
-    })
-    .catch(err => {
-        console.log(err)
-        res.status(500).json({
-            error: err
+            res.status(200).json({
+                device: device,
+                request: {
+                    type: "POST",
+                    url: "http://localhost:3000/sensors" + id 
+                }
+            });
         })
-    });
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        });
 }
+
+// async function getDevices (req, res, next) {
+//     const id = req.params.deviceId
+//     try {
+//         const queryResult = await Device.findById(id).populate('sensor')
+//         if (queryResult) {
+//             res.status(200).json({
+//                 device: device
+//             })
+//         } else {
+//             res.status(404).json({
+//                 error: "Device not found."
+//             })
+//         }
+//     } catch (err) {
+//         next(err)
+//     }
+// }
+
 
 exports.devices_patch_device = (req, res, next) =>{
     const id = req.params.deviceId;
@@ -139,45 +159,34 @@ exports.devices_delete_device = (req, res, next) =>{
         });
 }
 
-// exports.devices_add_sensor = (req, res, next) =>{
-//     const id = req.params.deviceId
-    // Device.update(
-    //     {id: req.params._id},
-    //     {$push: {sensor: req.body.sensor}},
-    //     function(error, success){
-    //         if(error){
-    //             console.log(error);
-    //         }
-    //         else{
-    //             console.log(success);
-    //         }
-    //     }
-    // );
-// };
-
-exports.devices_reading_sensors = (req, res, next) => {
-    id = req.params.deviceId
-    Device.findById(req.params.deviceId)
-        .populate('sensor')
-        .exec()
-        .then(device => {
-            if(!device){
-                return res.status(404).json({
-                    message: 'Device not found'
-                });
-            }
-            res.status(200).json({
-                device: device,
-                request: {
-                    type: "POST",
-                    url: "http://localhost:3000/sensors" + id 
+exports.add_sensor_data = (req, res, next) => {
+    const id = req.params.deviceId;
+    Device.findById(id)
+    .select('sensor')
+    .populate('sensor')
+    .exec()
+    .then( doc => {
+        console.log(doc.sensor)
+        for(const read of doc.sensor) {
+            const sensorReading = req.body.filter(reading => reading.sensorName = read.sensorName)
+            Sensor.findOneAndUpdate(read.sensorName, {
+                $push: {
+                    readings: sensorReading
                 }
-            });
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({
-                error: err
-            })
+            }).exec().then(res => console.log(res)).catch(err => console.log(err))
+        }
+    })
+    .catch(err =>{
+        console.log(err);
+        res.status(500).json({
+            error: err
         });
+    })
+    res.status(201).json({
+        message: 'Added data successfully',                 
+        request:{
+            type: 'GET',
+            url: 'http://localhost:3000/devices/' + id
+        }
+    })
 }

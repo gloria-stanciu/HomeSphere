@@ -14,10 +14,13 @@ const MONGO_PASS = process.env.MONGO_PASS
 const MONGO_DB = process.env.MONGO_DB
 const MONGO_HOST = process.env.MONGO_HOST
 
+mongoose.set('useCreateIndex', true)
 mongoose.connect(`mongodb+srv://${MONGO_USER}:${MONGO_PASS}@${MONGO_HOST}/${MONGO_DB}?retryWrites=true&w=majority`, {
+    
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
+
 
 mongoose.Promise = global.Promise;
 
