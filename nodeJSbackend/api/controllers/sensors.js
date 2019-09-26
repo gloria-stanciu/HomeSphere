@@ -26,7 +26,6 @@ exports.sensors_create_sensor = (req, res, next) => {
     const sensor = new Sensor({
         _id: new mongoose.Types.ObjectId(),
         sensorName:  req.body.sensorName,
-
     });
 
     return sensor.save()

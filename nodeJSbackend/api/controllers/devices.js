@@ -162,16 +162,16 @@ exports.devices_delete_device = (req, res, next) =>{
 exports.add_sensor_data = (req, res, next) => {
     const id = req.params.deviceId;
     Device.findById(id)
-    .select('sensor')
     .populate('sensor')
     .exec()
-    .then( doc => {
-        console.log(doc.sensor)
-        for(const read of doc.sensor) {
-            const sensorReading = req.body.filter(reading => reading.sensorName = read.sensorName)
-            Sensor.findOneAndUpdate(read.sensorName, {
+    .then( sns => {
+        // console.log(sns.sensor)
+        for (const sensor of sns.sensor) {
+            // console.log(sensor)
+            const reading = req.body.filter(reading => reading.sensorName === sensor.sensorName)
+            Sensor.findOneAndUpdate({ sensorName: reading[0].sensorName }, {
                 $push: {
-                    readings: sensorReading
+                    readings: reading
                 }
             }).exec().then(res => console.log(res)).catch(err => console.log(err))
         }
