@@ -47,27 +47,22 @@ def get_hardware_usage():
     return [
         {
             "name": "cpu",
-            "location": "internal",
             "usage": get_cpu_usage()
         },
         {
             "name": "ram_used",
-            "location": "internal",
             "usage": get_ram_used()
         },
         {
             "name": "ram_free",
-            "location": "internal",
             "usage": get_ram_free()
         },
         {
             "name": "disk_used",
-            "location": "internal",
             "usage": get_disk_used()
         },
         {
             "name": "disk_free",
-            "location": "internal",
             "usage": get_disk_free()
         }
     ]
@@ -94,3 +89,20 @@ def get_pressure():
 
 def get_humidity():
     return sensors().humidity
+
+
+def get_sensor_readings():
+    return [
+        {
+            "name": "temperature",
+            "usage": get_temp()
+        },
+        {
+            "name": "presure",
+            "usage": get_pressure()
+        },
+        {
+            "name": "humidity",
+            "usage": get_humidity()
+        }
+    ]

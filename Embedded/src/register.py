@@ -9,13 +9,16 @@ sensors = [
     "ram_used",
     "ram_free",
     "disk_used",
-    "disk_free"
+    "disk_free",
+    "temperature",
+    "humidity",
+    "pressure"
 ]
 
 device = {
     "_id": get_device_id(),
-    "deviceName": "test_rpi",
-    "location": "dorm"
+    "deviceName": "raspberry_pi",
+    "location": "dorm@316/2"
 }
 
 client = start(get_device_id())
