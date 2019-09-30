@@ -1,9 +1,11 @@
 import paho.mqtt.client as mqtt
-import time, socket
-import config
+import time
+import socket
+from src.config import config
+
 
 def on_connect(client, userdata, flags, rc):
-    if rc==0:
+    if rc == 0:
         print("Connected!")
     else:
         print("Not connected. Returned code: ", rc)
@@ -15,7 +17,7 @@ def on_disconnect(client, userdata, flags, rc=0):
 
 def on_message(client, userdata, message):
     print("\nMessage topic: ", message.topic)
-    print("Message received: " ,str(message.payload.decode("utf-8")))
+    print("Message received: ", str(message.payload.decode("utf-8")))
 
 
 def on_publish(mqttc, obj, mid):
@@ -28,7 +30,7 @@ def on_subscribe(mqttc, obj, mid, granted_qos):
 
 
 def start(client_id):
-    client = mqtt.Client(client_id, config.__protcl__) #create a new instance
+    client = mqtt.Client(client_id, config.__protcl__)
     client.username_pw_set(config.__usrnam__, config.__passwd__)
 
     client.on_connect = on_connect

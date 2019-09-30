@@ -6,11 +6,11 @@ print(client)
 client.loop_start()
 
 client.subscribe("home/#")
-client.subscribe("register")
+client.subscribe("register/#")
 
 try:
     while True:
-        time.sleep(0.2)
+        time.sleep(0)
 
 except KeyboardInterrupt:
     print("exiting")

@@ -12,8 +12,7 @@ bme280 = "*"
 paho-mqtt = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.6.8"
 
 [scripts]
-listen = "python3 listener.py"
-publish = "python3 publisher.py"
+start="python3 main.py"
