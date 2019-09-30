@@ -5,23 +5,11 @@ const Sensor = require('../models/sensor');
 
 exports.sensors_get_all = (req, res, next) => {
     Sensor.find()
-    .select('sensorName _id data date')
     .exec()
     .then(docs => {
         const response = {
             count: docs.length,
-            sensor: docs.map(doc => {
-                return{
-                    sensorName: doc.sensorName,
-                    _id: doc._id,
-                    data: doc.data,
-                    date: doc.date,
-                    request:{
-                        type: 'GET',
-                        url: 'http://localhost:3000/sensors/' + doc._id
-                    }
-                };
-            })
+            sensor: docs
         };
         res.status(200).json(response);
     })
@@ -38,8 +26,6 @@ exports.sensors_create_sensor = (req, res, next) => {
     const sensor = new Sensor({
         _id: new mongoose.Types.ObjectId(),
         sensorName:  req.body.sensorName,
-        data: req.body.data,
-        date: new Date()
     });
 
     return sensor.save()
@@ -47,7 +33,7 @@ exports.sensors_create_sensor = (req, res, next) => {
             device = req.params.deviceId;
             Device.findByIdAndUpdate(
                 req.params.deviceId,
-                {$push: {sensor: result._id}},
+                {$push:  {sensor: result._id}},
                 (error, data) => {
                     if(error){
                         console.log(error);
@@ -61,9 +47,8 @@ exports.sensors_create_sensor = (req, res, next) => {
                 message: 'Created sensor successfully',
                 createdSensor: {
                     sensorName: result.sensorName, 
-                    _id: result._id, 
-                    data: result.data,
-                    date: result.date,                   
+                    _id: result._id,
+                    readings: [{data: result.data, date: result.date}],
                     request:{
                         type: 'GET',
                         url: 'http://localhost:3000/devices/' + device  + '/sensors/readings'
@@ -146,3 +131,4 @@ exports.sensors_delete_sensor = (req, res, next) => {
         res.status(500).json({error: err});
     });
 }
+
