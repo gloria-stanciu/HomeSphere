@@ -46,7 +46,7 @@ def registerSensors(sensors, id):
 
 def registerReadings(readings, id):
     print(F"Registering readings:")
-    # print(json.loads(readings))
+    print(json.loads(readings))
     print(id)
     post = requests.post(
         F"http://glos.digital:3000/devices/{id}/sensors", json=json.loads(readings))

@@ -46,23 +46,23 @@ def get_disk_free():
 def get_hardware_usage():
     return [
         {
-            "name": "cpu",
+            "name": "_cpu",
             "usage": get_cpu_usage()
         },
         {
-            "name": "ram_used",
+            "name": "_ram_used",
             "usage": get_ram_used()
         },
         {
-            "name": "ram_free",
+            "name": "_ram_free",
             "usage": get_ram_free()
         },
         {
-            "name": "disk_used",
+            "name": "_disk_used",
             "usage": get_disk_used()
         },
         {
-            "name": "disk_free",
+            "name": "_disk_free",
             "usage": get_disk_free()
         }
     ]

@@ -38,6 +38,10 @@ export default {
         chart: {
           id: 'vuechart-example',
         },
+        yaxis: {
+          min: 0,
+          forceNiceScale: true,
+        },
         xaxis: {
           categories: null,
           labels: {
@@ -67,7 +71,7 @@ export default {
       const filteredDate = sensor.readings.map(val =>
         new Date(val.date).toLocaleString()
       )
-      const filteredData = sensor.readings.map(val => Math.round(val.data))
+      const filteredData = sensor.readings.map(val => val.data.toFixed(2))
       this.options.xaxis.categories = filteredDate
       this.series = [
         {
