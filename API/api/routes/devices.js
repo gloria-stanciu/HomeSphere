@@ -20,7 +20,7 @@ router.patch('/:deviceId', DevicesController.devices_patch_device);
 router.delete('/:deviceId', DevicesController.devices_delete_device);
 
 //add sensors data
-router.post('/:deviceId/sensors', DevicesController.add_sensor_data);
+// router.post('/:deviceId/sensors', DevicesController.add_sensor_data);
 
 //
 // router.get('/:deviceId/sensors/readings', DevicesController.devices_reading_sensors);
