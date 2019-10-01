@@ -6,20 +6,26 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const { db } = require('./config');
+const mqttClient = require('./mqtt');
 
 const deviceRoutes = require('./api/routes/devices');
 const sensorRoutes = require('./api/routes/sensors');
 
-mongoose.set('useCreateIndex', true);
-mongoose.connect(
-    `mongodb+srv://${db.USER}:${db.PASS}@${db.HOST}/${db.NAME}?retryWrites=true&w=majority`,
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    }
-);
+try {
+    mongoose.set('useCreateIndex', true);
+    mongoose.connect(
+        `mongodb+srv://${db.USER}:${db.PASS}@${db.HOST}/${db.NAME}?retryWrites=true&w=majority`,
+        {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        }
+    );
 
-mongoose.Promise = global.Promise;
+    mongoose.Promise = global.Promise;
+} catch (err) {
+    console.log('Mongo DB Error');
+    console.log(err);
+}
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -58,5 +64,15 @@ app.use((error, req, res, next) => {
         },
     });
 });
+
+mqttClient.subscribe('testing', { qos: 0 }, (err, granted) => {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log(granted);
+    }
+});
+
+mqttClient.publish('testing', 'hello?');
 
 module.exports = app;

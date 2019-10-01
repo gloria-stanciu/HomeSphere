@@ -5,8 +5,8 @@ client = controllers.start(client_id="mqtt_backend")
 print(client)
 client.loop_start()
 
-client.subscribe("home/#")
-client.subscribe("register/#")
+client.subscribe("$SYS/#")
+# client.subscribe("register/#")
 
 try:
     while True:
