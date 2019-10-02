@@ -18,7 +18,7 @@ def get_by_key(__key, __file):
 def write_to_file(__key, __value, __file):
     try:
         file = open(__file, "a+")
-        file.writelines(f"{__key}={__value}")
+        file.writelines(f"\n{__key}={__value}")
         file.close()
         return __value
     except:

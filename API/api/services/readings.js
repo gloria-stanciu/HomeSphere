@@ -1,11 +1,16 @@
-const mongoose = require('mongoose');
-
 const Device = require('../models/device');
 const Sensor = require('../models/sensor');
 
-const io = require('../../server');
+const io = require('../sockets');
 
 function addSensorData(deviceId, dataRead) {
+    console.log(`Emmiting reading ${deviceId}`);
+    io.emit(`reading/${deviceId}`, {
+        data: {
+            deviceId: deviceId,
+            data: dataRead,
+        },
+    });
     Device.findById(deviceId)
         .populate('sensor')
         .exec()
@@ -23,12 +28,11 @@ function addSensorData(deviceId, dataRead) {
                     }
                 )
                     .exec()
-                    .then(res => console.log(res))
+                    .then(res => console.log('added'))
                     .catch(err => console.log(err));
             }
         })
         .catch(err => console.log(err));
-    io.emit(dataRead);
 }
 
 module.exports = addSensorData;

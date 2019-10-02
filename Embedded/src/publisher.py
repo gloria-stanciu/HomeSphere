@@ -12,7 +12,10 @@ def publish_hardware():
     client.loop_start()
 
     while True:
-        hardware_data = []
+        hardware_data = {
+            'deviceId': get_device_id(),
+            'data': []
+        }
 
         for hardware in get_hardware_usage():
             tmp = {
@@ -20,19 +23,19 @@ def publish_hardware():
                 "data": hardware["usage"],
                 "date": datetime.now().isoformat()
             }
-            hardware_data.append(tmp)
+            hardware_data['data'].append(tmp)
 
-        for sensor in get_sensor_readings():
-            tmp = {
-                "sensorName": sensor["name"],
-                "data": sensor["usage"],
-                "date": datetime.now().isoformat()
-            }
-            hardware_data.append(tmp)
+        # for sensor in get_sensor_readings():
+        #     tmp = {
+        #         "sensorName": sensor["name"],
+        #         "data": sensor["usage"],
+        #         "date": datetime.now().isoformat()
+        #     }
+        #     hardware_data.append(tmp)
 
         client.publish(
-            f"home/hw/data/{get_device_id()}", json.dumps(hardware_data))
-        time.sleep(6)
+            f"sensors/readings", json.dumps(hardware_data))
+        time.sleep(2)
 
     client.loop_stop()
     client.disconnect()

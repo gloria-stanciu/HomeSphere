@@ -27,7 +27,7 @@ export default {
   },
   computed: mapState(['devices']),
   watch: {
-    devices: function(val) {
+    devices: function() {
       this.filterReadings(this.sensor)
     },
   },
@@ -65,6 +65,9 @@ export default {
   },
   mounted() {
     this.filterReadings(this.sensor)
+    this.sockets.subscribe(`reading/${this.$store.state.devices[0]._id}`, _ => {
+      this.filterReadings(this.sensor)
+    })
   },
   methods: {
     filterReadings: function(sensor) {
@@ -85,5 +88,4 @@ export default {
 }
 </script>
 
-<style lang="postcss" scoped>
-</style>
+<style lang="postcss" scoped></style>

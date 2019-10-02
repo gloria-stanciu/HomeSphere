@@ -21,6 +21,7 @@ exports.sensors_get_all = (req, res, next) => {
         });
 };
 
+// TODO: Remove this route
 exports.sensors_create_sensor = (req, res, next) => {
     console.log(req.body);
     const sensor = new Sensor({

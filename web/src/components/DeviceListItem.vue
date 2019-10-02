@@ -4,6 +4,7 @@
       <small class="uppercase text-xs text-gray-500">DEVICE NAME</small>
       <h1 class="text-2xl font-bold text-white">{{ device.deviceName }}</h1>
       <span class="text-gray-500">@{{ device.location }}</span>
+      <span class="text-gray-500">{{ device._id }}</span>
       <button class="px-3 text-white font-bold" @click="$emit('onRefresh')">Refresh</button>
     </div>
     <SensorList :sensors="device.sensor"></SensorList>
@@ -11,7 +12,6 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
 import SensorList from './SensorList'
 
 export default {
@@ -21,8 +21,20 @@ export default {
   props: {
     device: Object,
   },
+  mounted() {
+    this.sockets.subscribe(`reading/${this.device._id}`, payload => {
+      this.$store.dispatch('updateSensorReadings', payload.data)
+    })
+  },
+  sockets: {
+    connect() {
+      console.log('connected')
+    },
+    disconnect() {
+      console.log('disconnected')
+    },
+  },
 }
 </script>
 
-<style lang="postcss" scoped>
-</style>
+<style lang="postcss" scoped></style>

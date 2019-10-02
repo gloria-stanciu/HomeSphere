@@ -3,6 +3,14 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import '@/assets/css/tailwind.css'
+import VueSocketIO from 'vue-socket.io'
+
+Vue.use(
+  new VueSocketIO({
+    debug: true,
+    connection: 'http://localhost:3000',
+  })
+)
 
 Vue.config.productionTip = false
 

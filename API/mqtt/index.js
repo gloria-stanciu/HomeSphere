@@ -1,5 +1,6 @@
 const MQTT = require('mqtt');
 const { mqtt } = require('../config');
+const topics = require('./topics');
 
 const mqttClient = MQTT.connect(mqtt.BROKER, {
     username: mqtt.USRNAM,
@@ -16,11 +17,18 @@ mqttClient.on('connect', () => {
     console.log(`====  MQTT Client Connected  ====`);
 });
 
-mqttClient.on('message', function(topic, message) {
-    console.log('====  New Message  ====');
-    console.log(
-        `TOPIC\t\t${topic.toString()}\nMESSAGE\t\t${message.toString()}`
-    );
+for (const topic of Object.keys(topics)) {
+    mqttClient.subscribe(topic, (err, granted) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(granted);
+        }
+    });
+}
+
+mqttClient.on('message', (topic, message) => {
+    topics[topic](JSON.parse(message.toString()));
 });
 
 mqttClient.on('close', () => {

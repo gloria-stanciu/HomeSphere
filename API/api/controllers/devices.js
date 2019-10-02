@@ -1,5 +1,3 @@
-const mongoose = require('mongoose');
-
 const Device = require('../models/device');
 const Sensor = require('../models/sensor');
 
@@ -33,6 +31,7 @@ exports.devices_get_all = (req, res, next) => {
         });
 };
 
+// TODO: Remove this route
 exports.devices_create_device = (req, res, next) => {
     const device = new Device({
         _id: req.body._id,

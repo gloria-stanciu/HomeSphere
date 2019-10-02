@@ -1,5 +1,7 @@
 require('dotenv').config();
 
+const port = process.env.PORT;
+
 const db = {
     USER: process.env.MONGO_USER,
     PASS: process.env.MONGO_PASS,
@@ -16,4 +18,5 @@ const mqtt = {
 module.exports = {
     db,
     mqtt,
+    port,
 };
