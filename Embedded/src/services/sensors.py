@@ -98,7 +98,7 @@ def get_sensor_readings():
             "usage": get_temp()
         },
         {
-            "name": "presure",
+            "name": "pressure",
             "usage": get_pressure()
         },
         {

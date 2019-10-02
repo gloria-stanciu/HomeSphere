@@ -11,9 +11,9 @@ registerSensors = {
         "ram_free",
         "disk_used",
         "disk_free",
-        # "temperature",
-        # "humidity",
-        # "pressure"
+        "temperature",
+        "humidity",
+        "pressure"
     ]
 }
 

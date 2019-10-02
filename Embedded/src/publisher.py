@@ -25,13 +25,13 @@ def publish_hardware():
             }
             hardware_data['data'].append(tmp)
 
-        # for sensor in get_sensor_readings():
-        #     tmp = {
-        #         "sensorName": sensor["name"],
-        #         "data": sensor["usage"],
-        #         "date": datetime.now().isoformat()
-        #     }
-        #     hardware_data.append(tmp)
+        for sensor in get_sensor_readings():
+            tmp = {
+                "sensorName": sensor["name"],
+                "data": sensor["usage"],
+                "date": datetime.now().isoformat()
+            }
+            hardware_data.append(tmp)
 
         client.publish(
             f"sensors/readings", json.dumps(hardware_data))
