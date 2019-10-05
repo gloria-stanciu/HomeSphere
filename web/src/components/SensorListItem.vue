@@ -1,7 +1,8 @@
 <template>
   <div class="shadow-md rounded">
-    <div class="px-3 py-2 mb-3 bg-blue-500 rounded shadow-lg">
+    <div class="px-3 py-2 mb-3 bg-blue-500 rounded shadow-lg flex justify-between">
       <p class="font-bold text-white uppercase">{{ sensor.sensorName }}</p>
+      <span class="text-white">Current: {{ series[0].data[series[0].data.length - 1] }}</span>
     </div>
     <chart
       v-if="!isLoading"

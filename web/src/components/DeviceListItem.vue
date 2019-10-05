@@ -1,11 +1,10 @@
 <template>
   <div class="w-full">
-    <div class="w-full p-3 bg-gray-800 shadow-lg rounded flex-col">
+    <div class="w-full p-3 bg-gray-800 shadow-lg rounded flex-col overflow-hidden">
       <small class="uppercase text-xs text-gray-500">DEVICE NAME</small>
       <h1 class="text-2xl font-bold text-white">{{ device.deviceName }}</h1>
-      <span class="text-gray-500">@{{ device.location }}</span>
-      <span class="text-gray-500">{{ device._id }}</span>
-      <button class="px-3 text-white font-bold" @click="$emit('onRefresh')">Refresh</button>
+      <p class="text-gray-500">@{{ device.location }}</p>
+      <p class="text-gray-500">{{ device._id }}</p>
     </div>
     <SensorList :sensors="device.sensor"></SensorList>
   </div>

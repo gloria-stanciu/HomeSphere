@@ -32,7 +32,7 @@ mqttClient.on('message', (topic, message) => {
 });
 
 mqttClient.on('close', () => {
-    console.log(`====  MQTT Client Disconnected.   ====`);
+    console.log(`====  MQTT Client Disconnected.   ====\n`);
 });
 
 module.exports = mqttClient;

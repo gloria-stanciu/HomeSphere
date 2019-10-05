@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const sensorSchema = mongoose.Schema({
+const sensorSchema = new Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    sensorName: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
+    unit: { type: String, require: true },
     readings: [
         {
             data: { type: Number },
@@ -11,4 +13,4 @@ const sensorSchema = mongoose.Schema({
     ],
 });
 
-module.exports = mongoose.model('Sensor', sensorSchema);
+mongoose.model('Sensor', sensorSchema);

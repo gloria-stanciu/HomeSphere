@@ -1,22 +1,29 @@
 require('dotenv').config();
+require('pretty-error').start();
+
+const { db, port } = require('./config');
 
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const routing = require('lumie');
 const cors = require('cors');
 const helmet = require('helmet');
+const read = require('fs').readdirSync;
+const join = require('path').join;
 const http = require('http').Server(app);
 
+const models = join(__dirname, './models');
+read(models)
+    .filter(file => ~file.search(/^[^.].*\.js$/))
+    .forEach(file => require(join(models, file)));
+
 module.exports = io = require('socket.io')(http);
-require('./api/sockets');
+
+require('./sockets');
 require('./mqtt');
-
-const { db, port } = require('./config');
-
-const deviceRoutes = require('./api/routes/devices');
-const sensorRoutes = require('./api/routes/sensors');
 
 app.use(morgan('dev'));
 app.use(cors());
@@ -24,51 +31,36 @@ app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use('/devices', deviceRoutes);
-app.use('/sensors', sensorRoutes);
-
-io.on('connection', socket => {
-    console.log('Client connected');
-    socket.on('pig', data => {
-        console.log(data);
-    });
-});
-
-app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/index.html');
-});
-
-app.use((req, res, next) => {
-    const error = new Error('Not found!');
-    error.status = 404;
-    next(error);
+// Using lumie library
+routing.load(app, {
+    preURL: 'api',
+    verbose: true,
+    ignore: ['*.spec', '*.action'],
+    permissions: require('./services/permissions.js'),
+    controllers_path: join(__dirname, 'api'),
 });
 
 app.use((error, req, res, next) => {
     res.status(error.status || 500);
-    res.json({
-        error: {
-            message: error.message,
-        },
-    });
+    console.log(error);
+    res.send(error);
 });
 
 try {
-    mongoose.set('useCreateIndex', true);
     mongoose.connect(
         `mongodb+srv://${db.USER}:${db.PASS}@${db.HOST}/${db.NAME}?retryWrites=true&w=majority`,
         {
             useNewUrlParser: true,
             useUnifiedTopology: true,
+            useCreateIndex: true,
+            useFindAndModify: false,
         }
     );
-
-    mongoose.Promise = global.Promise;
 } catch (err) {
     console.log('Mongo DB Error');
     console.log(err);
 }
 
 http.listen(port, function() {
-    console.log(`Server listening on http://localhost:${port}`);
+    console.log(`\nServer listening on http://localhost:${port}\n`);
 });
