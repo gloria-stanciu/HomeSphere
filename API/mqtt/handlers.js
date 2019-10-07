@@ -11,8 +11,8 @@ function sendTest(message) {
 async function sendSensorReadings(message) {
     const deviceId = message.deviceId;
     const dataRead = message.data;
+    console.log(dataRead);
 
-    console.log(`Emmiting reading ${deviceId}`);
     io.emit(`reading/${deviceId}`, {
         data: {
             deviceId: deviceId,
@@ -21,15 +21,15 @@ async function sendSensorReadings(message) {
     });
 
     try {
-        const device = await Device.findById(deviceId).populate('sensor');
-
+        const device = await Device.findById(deviceId).populate('sensors');
         for (const sensor of device.sensors) {
             const reading = dataRead.filter(
-                reading => reading.sensorName === sensor.sensorName
+                reading => reading.sensorName === sensor.name
             );
+            console.log(reading);
 
             await Sensor.findOneAndUpdate(
-                { sensorName: reading[0].sensorName },
+                { name: reading[0].sensorName },
                 { $push: { readings: reading } }
             );
         }
@@ -39,13 +39,15 @@ async function sendSensorReadings(message) {
 }
 
 async function registerSensors(message) {
-    deviceId = message.deviceId;
+    const deviceId = message.deviceId;
     try {
-        const sensors = await Sensor.insertMany(message.sensors);
-        console.log(sensors);
-        for (const sensor of sensors) {
-            Device.findByIdAndUpdate(deviceId, {
-                $push: { sensor: sensor._id },
+        for (const toAdd of message.sensors) {
+            let newSensor = await Sensor.create({
+                name: toAdd.name,
+                unit: toAdd.unit,
+            });
+            await Device.findByIdAndUpdate(deviceId, {
+                $push: { sensors: newSensor._id },
             });
         }
     } catch (err) {

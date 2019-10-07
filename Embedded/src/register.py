@@ -6,20 +6,40 @@ import json
 registerSensors = {
     "deviceId": get_device_id(),
     "sensors": [
-        "cpu",
-        "ram_used",
-        "ram_free",
-        "disk_used",
-        "disk_free",
-        "temperature",
-        "humidity",
-        "pressure"
+        {
+            "name": "cpu",
+            "unit": "%"
+        },
+        {
+            "name": "ram_used",
+            "unit": "MB"
+        },
+        {
+            "name": "ram_free",
+            "unit": "MB"
+        },
+        {
+            "name": "disk_used",
+            "unit": "MB"
+        },
+        {
+            "name": "disk_free",
+            "unit": "MB"
+        },
+        {
+            "name": "temperature",
+            "unit": "C"
+        },
+        {
+            "name": "pressure",
+            "unit": "hPa"
+        }
     ]
 }
 
 device = {
-    "id": get_device_id(),
-    "deviceName": "raspberry_pi",
+    "_id": get_device_id(),
+    "name": "raspberry_pi",
     "location": "dorm@316/2"
 }
 
