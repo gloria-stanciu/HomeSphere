@@ -31,11 +31,10 @@ app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Using lumie library
 routing.load(app, {
     preURL: 'api',
     verbose: true,
-    ignore: ['*.spec', '*.action'],
+    ignore: ['*.spec', '*.action', '*.html'],
     permissions: require('./services/permissions.js'),
     controllers_path: join(__dirname, 'api'),
 });
