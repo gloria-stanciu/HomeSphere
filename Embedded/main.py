@@ -39,6 +39,4 @@ device.loadSensors(config['sensors'])
 device.start()
 
 
-# DONE: Generate ID and save to JSON
-# TODO: Methods for registering device <-and saving to json registered state->
 # TODO: MQTT handle registration success messages

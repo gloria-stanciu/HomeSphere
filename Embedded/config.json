@@ -38,6 +38,16 @@
             "name": "disk_used",
             "unit": "GB",
             "method": "get_disk_used"
+        },
+        {
+            "name": "temperature",
+            "unit": "C",
+            "method": "get_temp"
+        },
+        {
+            "name": "pressure",
+            "unit": "Atm",
+            "method": "get_pressure"
         }
     ]
 }

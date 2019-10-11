@@ -90,10 +90,3 @@ class Device:
 
         self.mqtt.loop_stop()
         self.mqtt.disconnect()
-
-
-# TODO:
-# All possible sensor methods to be saved somewhere else
-# If one does not exist, just don't call it
-# Use the getattr to call only existing sensors
-# Based on self.sensors
