@@ -1,4 +1,3 @@
-const mqttClient = require('.');
 const handlers = require('./handlers');
 
 const topics = {

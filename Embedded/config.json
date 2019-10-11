@@ -1,0 +1,43 @@
+{
+    "device": {
+        "_id": null,
+        "name": "raspberry_pi",
+        "location": "dorm",
+        "disk_total": null,
+        "ram_total": null
+    },
+    "mqtt": {
+        "__broker__": "167.71.42.195",
+        "__client__": "rpi",
+        "__protcl__": 3,
+        "__usrnam__": "gloria",
+        "__passwd__": "stanciu160499"
+    },
+    "sensors": [
+        {
+            "name": "cpu",
+            "unit": "%",
+            "method": "get_cpu_usage"
+        },
+        {
+            "name": "ram_free",
+            "unit": "MB",
+            "method": "get_ram_free"
+        },
+        {
+            "name": "ram_used",
+            "unit": "MB",
+            "method": "get_ram_used"
+        },
+        {
+            "name": "disk_free",
+            "unit": "GB",
+            "method": "get_disk_free"
+        },
+        {
+            "name": "disk_used",
+            "unit": "GB",
+            "method": "get_disk_used"
+        }
+    ]
+}

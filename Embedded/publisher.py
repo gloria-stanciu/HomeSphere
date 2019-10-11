@@ -1,14 +1,11 @@
-from src.config.startup import start
-from src.services.id import get_device_id
-from src.services.sensors import get_hardware_usage, get_sensor_readings
+from services.id import get_device_id
+from services.sensors import get_hardware_usage, get_sensor_readings
 from datetime import datetime
 import json
 import time
 
 
 def publish_hardware():
-    client = start(get_device_id())
-
     client.loop_start()
 
     while True:

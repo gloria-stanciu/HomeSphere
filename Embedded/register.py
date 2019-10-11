@@ -1,5 +1,5 @@
-from src.config.startup import start
-from src.services.id import get_device_id
+from config.startup import start
+from services.id import get_device_id
 import time
 import json
 

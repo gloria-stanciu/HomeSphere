@@ -28,7 +28,12 @@ for (const topic of Object.keys(topics)) {
 }
 
 mqttClient.on('message', (topic, message) => {
-    topics[topic](JSON.parse(message.toString()));
+    try {
+        const jsonMessage = JSON.parse(message.toString());
+        topics[topic](mqttClient, jsonMessage);
+    } catch (err) {
+        topics[topic](mqttClient, message.toString());
+    }
 });
 
 mqttClient.on('close', () => {
