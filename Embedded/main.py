@@ -9,6 +9,7 @@ from utils.configs import getOrGenId, loadConfig, updateConfig
 
 config = loadConfig('./config.local.json', './config.json')
 
+print(config)
 if config is False:
     print('Config file not found.')
     exit()

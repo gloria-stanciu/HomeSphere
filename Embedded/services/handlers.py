@@ -18,10 +18,8 @@ def onSensorsRegister(message):
     print(message)
 
 
-id = getOrGenId(loadConfig('./config.local.json', './config.json'))
-
 topics = {
-    F'device/{id}/error': onError,
+    F'device/{getOrGenId(loadConfig("./config.local.json", "./config.json"))}/error': onError,
     'testx': onTest,
     'devices/register/status': onDeviceRegister,
     'sensors/register/status': onSensorsRegister

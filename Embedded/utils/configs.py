@@ -6,12 +6,12 @@ import uuid
 def loadConfig(localFile, prodFile):
     if os.path.exists(localFile):
         with open(localFile) as localConfig:
-            return json.load(localConfig)
-    elif os.path.exists(prodFile):
-        with open(prodFile) as config:
-            return json.load(config)
+            cfg = json.load(localConfig)
+            return cfg
     else:
-        return False
+        with open(prodFile) as cfg:
+            cfg = json.load(cfg)
+            return cfg
 
 
 def updateConfig(localFile, prodFile, newConfig):
@@ -20,7 +20,8 @@ def updateConfig(localFile, prodFile, newConfig):
             return json.dump(newConfig, localConfig, indent=4)
     elif os.path.exists(prodFile):
         with open(prodFile, 'w') as config:
-            return json.dump(config, newConfig, indent=4)
+            json.dump(newConfig, config, indent=4)
+            return newConfig
     else:
         return False
 
@@ -32,4 +33,5 @@ def getOrGenId(config):
         id = uuid.uuid4()
         config['device']['_id'] = str(id)
         updateConfig('./config.local.json', './config.json', config)
+        print(config['device']['_id'])
         return config['device']['_id']
