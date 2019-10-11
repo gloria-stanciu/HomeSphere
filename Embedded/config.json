@@ -1,17 +1,16 @@
 {
     "device": {
-        "_id": null,
+        "_id": "48837841-40b1-4932-aff4-c83f2d4539d8",
         "name": "raspberry_pi",
         "location": "dorm",
-        "disk_total": null,
-        "ram_total": null
+        "disk_total": "390.02441024780273",
+        "ram_total": "8267.0"
     },
     "mqtt": {
-        "__broker__": "167.71.42.195",
-        "__client__": "rpi",
-        "__protcl__": 3,
-        "__usrnam__": "gloria",
-        "__passwd__": "stanciu160499"
+        "broker": "167.71.42.195",
+        "client": "rpi",
+        "usrnam": "gloria",
+        "passwd": "stanciu160499"
     },
     "sensors": [
         {
@@ -41,12 +40,12 @@
         },
         {
             "name": "temperature",
-            "unit": "C",
+            "unit": "GB",
             "method": "get_temp"
         },
         {
             "name": "pressure",
-            "unit": "Atm",
+            "unit": "GB",
             "method": "get_pressure"
         }
     ]

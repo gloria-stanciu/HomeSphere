@@ -4,10 +4,10 @@ import uuid
 
 
 def loadConfig(localFile, prodFile):
-    if os.path.isfile(localFile):
+    if os.path.exists(localFile):
         with open(localFile) as localConfig:
             return json.load(localConfig)
-    elif os.path.isfile(prodFile):
+    elif os.path.exists(prodFile):
         with open(prodFile) as config:
             return json.load(config)
     else:
@@ -15,10 +15,10 @@ def loadConfig(localFile, prodFile):
 
 
 def updateConfig(localFile, prodFile, newConfig):
-    if os.path.isfile(localFile):
+    if os.path.exists(localFile):
         with open(localFile, 'w') as localConfig:
             return json.dump(newConfig, localConfig, indent=4)
-    elif os.path.isfile(prodFile):
+    elif os.path.exists(prodFile):
         with open(prodFile, 'w') as config:
             return json.dump(config, newConfig, indent=4)
     else:
