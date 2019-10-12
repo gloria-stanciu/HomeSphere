@@ -81,12 +81,20 @@ class Device:
 
             for sensor in sensorsCopy:
                 method = sensor['method']
-                sensorsData[sensor['name']] = read_data.get(
-                    method, lambda: 'Invalid method')()
+                if 'current' in sensor['name']:
+                    current_data = read_data.get(
+                        method, lambda: 'Invalid method')(sensor['nof'])
+                    i = 0
+                    for data in current_data:
+                        sensorsData[f'{sensor["name"]}-{i}'] = data
+                else:
+                    sensorsData[sensor['name']] = read_data.get(
+                        method, lambda: 'Invalid method')()
 
             time.sleep(2)
             sensorsData['date'] = datetime.now().isoformat()
-            self.mqtt.publish('sensors/readings', json.dumps(sensorsData))
+            print(sensorsData)
+            # self.mqtt.publish('sensors/readings', json.dumps(sensorsData))
 
         self.mqtt.loop_stop()
         self.mqtt.disconnect()

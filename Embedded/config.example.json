@@ -49,9 +49,10 @@
             "method": "get_pressure"
         },
         {
-            "name": "current-0",
+            "name": "current_cost",
             "unit": "Watts",
-            "method": "get_current"
+            "method": "get_current",
+            "nof": "2"
         }
     ]
 }

@@ -2,6 +2,7 @@ import io
 import serial
 import untangle
 from serial import Serial
+from utils.configs import updateConfig
 
 serial = Serial("/dev/ttyUSB0", 57600, timeout=6)
 
@@ -48,4 +49,20 @@ def getNofSensors():
     return nofSensors
 
 
-print(getNofSensors())
+def updateSensors(config):
+    for sensor in config['sensors']:
+        if 'current_cost' in sensor:
+            sensor['nof'] = getNofSensors()
+    updateConfig('./config.local.json', './config.json', config)
+
+
+def get_current(totalReadings):
+    nofReadings = 0
+    readings = []
+    while True:
+        xml = readXML()
+        if xml and isXMLgood(xml) and nofReadings <= totalReadings:
+            nofReadings += 1
+            readings.append(float(xml.msg.ch1.watts.cdata))
+        else:
+            return readings

@@ -6,6 +6,7 @@ from paho.mqtt import subscribe
 from lib.Device import Device
 from lib.Hardware import get_disk_total, get_ram_total
 from utils.configs import getOrGenId, loadConfig, updateConfig
+from services import current_cost
 
 config = loadConfig('./config.local.json', './config.json')
 
@@ -36,7 +37,9 @@ device.loadMqtt(
     password=config['mqtt']['passwd'],
 )
 
+current_cost.updateSensors(config)
 device.loadSensors(config['sensors'])
+
 device.start()
 
 

@@ -4,6 +4,8 @@ import json
 import smbus2
 import bme280
 
+from services.current_cost import get_current
+
 
 def get_ram_info():
     p = os.popen('free')
@@ -69,5 +71,6 @@ read_data = {
     "get_disk_used": get_disk_used,
     "get_disk_free": get_disk_free,
     "get_temp": get_temp,
-    "get_pressure": get_pressure
+    "get_pressure": get_pressure,
+    "get_current": get_current
 }
