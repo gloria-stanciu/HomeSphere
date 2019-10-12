@@ -12,5 +12,5 @@ module.exports = {
             action: getSensorById,
             level: 'public',
         },
-    }
+    },
 };

@@ -23,9 +23,12 @@ read(models)
 module.exports = io = require('socket.io')(http);
 
 require('./sockets');
-require('./mqtt');
+// require('./mqtt');
 
-app.use(morgan('dev'));
+app.set('view engine', 'ejs');
+app.set('views', './pages');
+
+app.use(morgan('combined'));
 app.use(cors());
 app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: false }));

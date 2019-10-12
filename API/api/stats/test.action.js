@@ -6,13 +6,11 @@ const Sensor = mongoose.model('Sensor');
 
 async function mean(id) {
     try {
-        // const device = await Device.find();
         const sensor = await Sensor.findById(id);
         let sensorData = [];
         for (const reading of sensor.readings) {
             sensorData.push(reading.data);
         }
-        // console.log(sensorData)
         return d3.mean(sensorData);
     } catch (err) {
         console.log(err);

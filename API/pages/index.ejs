@@ -1,0 +1,115 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <title>My Chart</title>
+    </head>
+    <body>
+        <script src="https://d3js.org/d3.v5.min.js"></script>
+        <svg id="chart" viewBox="0 0 1000 500"></svg>
+    </body>
+</html>
+
+<script>
+    const importHist = '<%- history %>';
+    const importFuture = '<%- future %>';
+    const histData = JSON.parse(importHist);
+    const future = JSON.parse(importFuture);
+    // console.log(histData, future);
+
+    function predictFuture(data, newX) {
+        const round = n => Math.round(n * 100) / 100;
+        const sum = data.reduce(
+            (acc, pair) => {
+                const x = pair[0];
+                const y = pair[1];
+
+                if (y) {
+                    acc.x += x;
+                    acc.y += y;
+                    acc.squareX += x * y;
+                    acc.product += x * y;
+                    acc.length += 1;
+                }
+                return acc;
+            },
+            { x: 0, y: 0, squareX: 0, product: 0, length: 0 }
+        );
+
+        const rise = sum.length * sum.product - sum.x * sum.y;
+        const run = sum.length * sum.squareX - sum.x * sum.x;
+
+        const gradient = run === 0 ? null : round(rise / run);
+        const intercept = round(
+            sum.y / sum.length - (gradient * sum.x) / sum.length
+        );
+
+        return round(gradient * newX + intercept);
+    }
+
+    const historyIndex = histData.map((d, i) => [i, d.data]);
+    console.log(historyIndex);
+    const futureX = future.map((d, i) => {
+        console.log(d.date);
+        return {
+            date: d.date,
+            data: predictFuture(historyIndex, historyIndex.length - 1 + i),
+        };
+    });
+
+    const chart = d3.select('#chart');
+    const margin = { top: 20, right: 20, bottom: 30, left: 70 };
+    const width = 1000 - margin.left - margin.right;
+    const height = 500 - margin.top - margin.bottom;
+    const innerChart = chart
+        .append('g')
+        .attr('transform', `translate(${margin.left} ${margin.top})`);
+
+    const x = d3.scaleTime().rangeRound([0, width]);
+    const y = d3.scaleLinear().rangeRound([height, 0]);
+
+    const line = d3
+        .line()
+        .x(d => x(d.date))
+        .y(d => y(d.data));
+
+    x.domain([d3.min(historyIndex, d => d.date), d3.max(futureX, d => d.date)]);
+    y.domain([0, d3.max(historyIndex, d => d.data)]);
+
+    innerChart
+        .append('g')
+        .attr('transform', `translate(0 ${height})`)
+        .call(d3.axisBottom(x));
+
+    innerChart
+        .append('g')
+        .call(d3.axisLeft(y))
+        .append('text')
+        .attr('fill', '#000')
+        .attr('transform', 'rotate(-90)')
+        .attr('y', 6)
+        .attr('dy', '0.71em')
+        .attr('text-anchor', 'end')
+        .text('Temperature');
+
+    innerChart
+        .append('path')
+        .datum(historyIndex)
+        .attr('d', line)
+        .attr('fill', 'none')
+        .attr('stroke', 'steelblue')
+        .attr('stroke-width', 1.5);
+
+    innerChart
+        .append('path')
+        .datum(futureX)
+        .attr('d', line)
+        .attr('fill', 'none')
+        .attr('stroke', 'tomato')
+        .attr('stroke-dasharray', '10,7')
+        .attr('stroke-width', 1.5);
+</script> -->

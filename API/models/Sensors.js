@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 const sensorSchema = new Schema({
     name: { type: String, required: true },
-    unit: { type: String, require: true },
+    unit: { type: String, required: true },
+    alias: { type: String },
     readings: [
         {
             data: { type: Number },
