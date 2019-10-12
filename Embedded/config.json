@@ -47,6 +47,11 @@
             "name": "pressure",
             "unit": "Atm",
             "method": "get_pressure"
+        },
+        {
+            "name": "current-0",
+            "unit": "Watts",
+            "method": "get_current"
         }
     ]
 }

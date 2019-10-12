@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 
 const http = axios.create({
-  baseURL: 'http://glos.digital:3000/',
+  baseURL: 'http://localhost:3000/api',
 })
 
 Vue.use(Vuex)
@@ -39,10 +39,9 @@ export default new Vuex.Store({
   },
   actions: {
     fetchDevices({ commit }) {
-      return http.get('devices').then(res => {
-        console.log(res.data.device)
-        commit('ADD_DEVICES', res.data.device)
-        return res.data.device
+      return http.get('/devices').then(res => {
+        console.log(res.data)
+        commit('ADD_DEVICES', res.data)
       })
     },
     updateSensorReadings({ commit }, readings) {
