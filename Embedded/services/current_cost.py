@@ -50,8 +50,9 @@ def getNofSensors():
 
 
 def updateSensors(config):
+    print('configuring current cost sensors')
     for sensor in config['sensors']:
-        if 'current_cost' in sensor:
+        if 'current' in sensor:
             sensor['nof'] = getNofSensors()
     updateConfig('./config.local.json', './config.json', config)
 
@@ -61,8 +62,16 @@ def get_current(totalReadings):
     readings = []
     while True:
         xml = readXML()
-        if xml and isXMLgood(xml) and nofReadings <= totalReadings:
+        if xml and isXMLgood(xml):
             nofReadings += 1
-            readings.append(float(xml.msg.ch1.watts.cdata))
+            if nofReadings == int(totalReadings):
+                readings.append(float(xml.msg.ch1.watts.cdata))
+                return readings
+                print(readings)
+                break
+            else:
+                readings.append(float(xml.msg.ch1.watts.cdata))
         else:
+            print(readings)
+            break
             return readings

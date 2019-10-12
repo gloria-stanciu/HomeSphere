@@ -1,10 +1,10 @@
 {
     "device": {
-        "_id": null,
+        "_id": "310646de-5de2-404a-a0a8-8603eccf4981",
         "name": "raspberry_pi",
         "location": "dorm",
-        "disk_total": null,
-        "ram_total": null
+        "disk_total": "14.329120635986328",
+        "ram_total": "948.3"
     },
     "mqtt": {
         "broker": "167.71.42.195",
@@ -49,9 +49,10 @@
             "method": "get_pressure"
         },
         {
-            "name": "current-0",
+            "name": "current_cost",
             "unit": "Watts",
-            "method": "get_current"
+            "method": "get_current",
+            "nof": "2"
         }
     ]
 }

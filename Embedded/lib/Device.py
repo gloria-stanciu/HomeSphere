@@ -83,10 +83,14 @@ class Device:
                 method = sensor['method']
                 if 'current' in sensor['name']:
                     current_data = read_data.get(
-                        method, lambda: 'Invalid method')(sensor['nof'])
+                        method, lambda: 'Invalid method')
                     i = 0
-                    for data in current_data:
+                    readData = current_data(sensor['nof'])
+                    print('printing data')
+                    for data in readData:
+                        print(data)
                         sensorsData[f'{sensor["name"]}-{i}'] = data
+                        i += 1
                 else:
                     sensorsData[sensor['name']] = read_data.get(
                         method, lambda: 'Invalid method')()
