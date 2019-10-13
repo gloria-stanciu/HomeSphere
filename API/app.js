@@ -21,7 +21,8 @@ read(models)
     .filter(file => ~file.search(/^[^.].*\.js$/))
     .forEach(file => require(join(models, file)));
 
-module.exports = io = require('socket.io')(http);
+const io = require('socket.io')(http);
+module.exports = io;
 
 require('./sockets');
 require('./mqtt');
