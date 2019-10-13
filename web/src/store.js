@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 
 const http = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: '/api',
 })
 
 Vue.use(Vuex)

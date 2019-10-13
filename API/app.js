@@ -1,3 +1,4 @@
+'use strict';
 require('dotenv').config();
 require('pretty-error').start();
 

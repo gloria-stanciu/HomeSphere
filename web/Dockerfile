@@ -2,6 +2,8 @@ FROM node:latest as build
 
 ENV VUE_APP_API_PROXY=
 ENV BASE_URL=/
+ENV SOCKET_DEBUG=false
+ENV VUE_APP_SOCKET_URL=/
 
 WORKDIR /app
 COPY package*.json ./
