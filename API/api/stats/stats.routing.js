@@ -1,8 +1,8 @@
-const { callFunctions } = require('./test.action');
+const { callFunctions } = require('./get.action');
 const { predict } = require('./prediction.action');
 
 module.exports = {
-    '/test/:id': {
+    '/prediction/:id': {
         get: {
             action: predict,
             level: 'public',
@@ -11,7 +11,7 @@ module.exports = {
     '/:id': {
         get: {
             action: callFunctions,
-            level: 'public',
+            level: 'member',
         },
     },
 };

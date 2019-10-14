@@ -12,15 +12,15 @@ module.exports = {
     '/:id': {
         get: {
             action: getDeviceById,
-            level: 'public',
+            level: 'member',
         },
         delete: {
             action: deleteDeviceById,
-            level: 'public',
+            level: 'member',
         },
         patch: {
             action: updateDeviceById,
-            level: 'public',
+            level: 'member',
         },
     },
 };

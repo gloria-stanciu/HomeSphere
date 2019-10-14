@@ -2,9 +2,6 @@ const jwt = require('jsonwebtoken');
 const levelFcts = {
     public: (req, res, next) => next(),
     member: (req, res, next) => {
-        req.user ? next() : res.sendStatus(401);
-    },
-    checkAuth: (req, res, next) => {
         const token = req.header('x-access-token');
         try {
             const decoded = jwt.verify(token, process.env.JWT_KEY);

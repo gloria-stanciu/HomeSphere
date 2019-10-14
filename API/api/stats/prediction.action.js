@@ -68,6 +68,7 @@ function predictFuture(data, newX) {
 }
 
 async function predict(req, res, next) {
+    const startTime = new Date();
     const id = req.params.id;
     try {
         let history = await getHistory(id);
@@ -88,6 +89,8 @@ async function predict(req, res, next) {
                 data: predictFuture(historyIndex, historyIndex.length - 1 + i),
             };
         });
+        const stopTime = new Date();
+        console.log((stopTime - startTime) / 1000);
         return res.status(200).json(futureX);
     } catch (err) {
         next(err);

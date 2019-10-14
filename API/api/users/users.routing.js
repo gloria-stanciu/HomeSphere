@@ -6,13 +6,13 @@ module.exports = {
     '/': {
         get: {
             action: getAll,
-            level: 'checkAuth',
+            level: 'public',
         },
     },
     '/:id': {
         get: {
             action: getUserById,
-            level: 'checkAuth',
+            level: 'member',
         },
     },
     '/auth': {
@@ -24,7 +24,7 @@ module.exports = {
     '/auth/:id': {
         delete: {
             action: deleteUser,
-            level: 'checkAuth',
+            level: 'member',
         },
     },
     '/login': {
@@ -36,7 +36,7 @@ module.exports = {
     '/devices': {
         post: {
             action: addDevices,
-            level: 'checkAuth',
+            level: 'member',
         },
     },
 };
