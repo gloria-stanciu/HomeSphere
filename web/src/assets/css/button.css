@@ -1,0 +1,17 @@
+button {
+  transition: all 0.1s ease-in-out;
+  @apply p-3;
+}
+
+.button-base {
+  @apply bg-blue-500 text-white rounded;
+}
+
+.button-base:hover {
+  @apply bg-blue-600;
+}
+
+.button-base:active,
+.button-base:focus {
+  @apply bg-blue-800;
+}

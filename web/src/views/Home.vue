@@ -1,17 +1,24 @@
 <template>
-  <div class="container mx-auto px-3 py-3">
-    <DeviceList></DeviceList>
+  <div class="w-full h-full">
+    <Header></Header>
   </div>
 </template>
 
 <script>
-import DeviceList from '@/components/DeviceList'
-// @ is an alias to /src
-
+import Header from '../components/Common/Header'
 export default {
-  name: 'Home',
   components: {
-    DeviceList,
+    Header,
   },
 }
 </script>
+
+<style lang="postcss" scoped>
+.menu-item {
+  @apply h-full px-3 flex items-center border-b-2 border-transparent;
+}
+
+.menu-item:hover {
+  @apply border-b-2 border-blue-500;
+}
+</style>

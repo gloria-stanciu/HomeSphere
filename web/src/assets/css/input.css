@@ -1,0 +1,17 @@
+input {
+  transition: all 0.1s ease-in-out;
+  @apply p-3;
+}
+
+.input-base {
+  @apply border border-blue-200 rounded my-2;
+}
+
+.input-base:hover {
+  @apply border-blue-400;
+}
+
+.input-base:active,
+.input-base:focus {
+  @apply border-blue-500 outline-none;
+}
