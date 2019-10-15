@@ -25,11 +25,13 @@ async function signUp(req, res, next) {
         });
         user.save()
             .then(result => {
-                res.status(201).send(result);
+                res.status(201).send({
+                    username: req.body.username,
+                });
             })
             .catch(err => {
                 console.log(err);
-                res.status(500).json({ error: err });
+                res.status(500).send(err);
             });
     });
 }
@@ -39,9 +41,10 @@ async function logIn(req, res, next) {
     if (!req.body.password) return res.status(400).send('Password required');
     try {
         const user = await User.findOne({ username: req.body.username });
-        if (!user) return res.status(401).json({ message: 'Auth failed!' });
+        if (!user)
+            return res.status(404).send('Username or Password not matching.');
         bcrypt.compare(req.body.password, user.password, (err, result) => {
-            if (err) return res.status(401).json({ message: 'Auth error!' });
+            if (err) return res.status(401).send('Token invalid!');
             if (result) {
                 const token = jwt.sign(
                     {
@@ -54,11 +57,14 @@ async function logIn(req, res, next) {
                     }
                 );
                 return res.status(200).send(token);
-            } else return res.status(401).json({ message: 'Auth failed!' });
+            } else
+                return res
+                    .status(401)
+                    .send('Username or Password not matching.');
         });
     } catch (err) {
         console.log(err);
-        res.status(500).json({ error: err });
+        res.status(500).send(err);
     }
 }
 
@@ -70,15 +76,14 @@ async function addDevices(req, res, next) {
     try {
         for (const id of devices) {
             const query = await Device.findById(id);
-            if (!query)
-                return res.status(401).json({ error: 'Device not found' });
+            if (!query) return res.status(404).send('Device not found');
 
             const searchDevice = user.devices.find(deviceId => {
                 return id === deviceId;
             });
 
             if (searchDevice)
-                return res.status(500).json(`Device ${id} already exists`);
+                return res.status(500).send(`Device already exists`);
 
             await user.updateOne({ $push: { devices: query._id } });
         }

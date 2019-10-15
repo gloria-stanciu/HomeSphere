@@ -1,6 +1,7 @@
 <template>
   <div class="w-full h-full">
     <Header></Header>
+    <div class="container pt-20"></div>
   </div>
 </template>
 

@@ -33,7 +33,16 @@ router.beforeEach((to, from, next) => {
   if (to.meta.protected) {
     try {
       const token = localStorage.getItem('token')
-    } catch (err) {}
+      if (token) {
+        next()
+      } else {
+        next('/auth')
+      }
+    } catch (err) {
+      next('/auth')
+    }
+  } else {
+    next()
   }
 })
 

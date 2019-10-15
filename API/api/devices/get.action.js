@@ -7,7 +7,7 @@ async function getAll(req, res, next) {
             path: 'sensors',
             select: ['name', 'unit'],
         });
-        res.status(200).send(lastValue);
+        res.status(200).send(devices);
     } catch (err) {
         console.log(err);
         next(err);

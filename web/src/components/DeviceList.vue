@@ -1,13 +1,7 @@
 <template>
   <section class="w-full flex flex-col">
     <div v-if="isLoading">Loading...</div>
-    <DeviceListItem
-      v-else
-      v-for="device in devices"
-      :key="device._id"
-      :device="device"
-      @onRefresh="onRefresh()"
-    ></DeviceListItem>
+    <DeviceListItem v-else v-for="device in devices" :key="device._id" :device="device"></DeviceListItem>
   </section>
 </template>
 
@@ -27,16 +21,20 @@ export default {
   computed: {
     ...mapState(['devices']),
   },
+  created() {
+    this.loadDevices()
+  },
   methods: {
     ...mapActions(['fetchDevices']),
-    onRefresh: function() {
-      this.fetchDevices()
+
+    loadDevices: async function() {
+      try {
+        await this.fetchDevices()
+        this.isLoading = false
+      } catch (err) {
+        console.log(err)
+      }
     },
-  },
-  created() {
-    this.fetchDevices().then(() => {
-      this.isLoading = false
-    })
   },
 }
 </script>

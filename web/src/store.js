@@ -41,35 +41,39 @@ export default new Vuex.Store({
       console.log('Authenticated')
       state.user = credentials.user
     },
+    ['REGISTER_USER'](state, username) {
+      console.log('Authenticated')
+      state.user = username
+    },
   },
   actions: {
-    fetchDevices({ commit }) {
-      return http
-        .get('/devices')
-        .then(res => {
-          console.log(res.data)
-          commit('ADD_DEVICES', res.data)
-        })
-        .catch(err => {
-          console.log('error fetching devices', err)
-        })
-    },
     updateSensorReadings({ commit }, readings) {
       commit('ADD_READINGS', readings)
     },
-    registerUser({ commit }, credentials) {
-      return http
-        .post('/users/auth', {
+    async fetchDevices({ commit }) {
+      try {
+        const response = await http.get('/users/devices', {
+          headers: {
+            'x-access-token': localStorage.getItem('token'),
+          },
+        })
+        commit('ADD_DEVICES', response.data)
+        return response.data
+      } catch (err) {
+        throw new Error(err.response.data)
+      }
+    },
+    async registerUser({ commit }, credentials) {
+      try {
+        const response = await http.post('/users/auth', {
           username: credentials.username,
           password: credentials.password,
           email: credentials.email,
         })
-        .then(res => {
-          console.log('New user:', res)
-        })
-        .catch(err => {
-          console.log('error registering', err)
-        })
+        commit('REGISTER_USER', response.data)
+      } catch (err) {
+        throw new Error(err.response.data)
+      }
     },
     async authUser({ commit }, credentials) {
       try {
@@ -77,10 +81,10 @@ export default new Vuex.Store({
           username: credentials.username,
           password: credentials.password,
         })
-        localStorage.setItem('token', response.data.token)
+        localStorage.setItem('token', response.data)
         return response.data
       } catch (err) {
-        throw new Error('Username or password do not match!')
+        throw new Error(err.response.data)
       }
     },
   },

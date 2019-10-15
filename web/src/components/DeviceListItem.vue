@@ -21,9 +21,9 @@ export default {
     device: Object,
   },
   mounted() {
-    this.sockets.subscribe(`reading/${this.device._id}`, payload => {
-      this.$store.dispatch('updateSensorReadings', payload.data)
-    })
+    // this.sockets.subscribe(`reading/${this.device._id}`, payload => {
+    //   this.$store.dispatch('updateSensorReadings', payload.data)
+    // })
   },
   sockets: {
     connect() {

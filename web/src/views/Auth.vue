@@ -1,7 +1,7 @@
 <template>
   <div class="w-full h-full">
     <Header></Header>
-    <section id="auth" class="container">
+    <section id="auth" class="container pt-20">
       <div class="card w-1/3">
         <div class="card-header">
           <h1>
@@ -104,18 +104,20 @@ export default {
       this.loading = true
       try {
         const user = await this.authUser(this.auth)
-        this.error = user.token
+        this.$router.push({ path: '/dashboard' })
       } catch (err) {
         this.error = err
       }
       this.loading = false
     },
 
-    register: function() {
-      console.log('signin-up')
-      this.registerUser(this.reg).then(value => {
-        console.log(value)
-      })
+    register: async function() {
+      try {
+        const user = await this.registerUser(this.reg)
+        this.error = user
+      } catch (err) {
+        this.error = err
+      }
     },
   },
 }
