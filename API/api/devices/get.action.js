@@ -3,9 +3,13 @@ const Device = mongoose.model('Device');
 
 async function getAll(req, res, next) {
     try {
-        const devices = await Device.find();
-        res.status(200).send(devices);
+        const devices = await Device.find().populate({
+            path: 'sensors',
+            select: ['name', 'unit'],
+        });
+        res.status(200).send(lastValue);
     } catch (err) {
+        console.log(err);
         next(err);
     }
 }

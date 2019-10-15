@@ -25,10 +25,7 @@ async function signUp(req, res, next) {
         });
         user.save()
             .then(result => {
-                res.status(201).json({
-                    message: 'User created',
-                    user: result,
-                });
+                res.status(201).send(result);
             })
             .catch(err => {
                 console.log(err);
@@ -56,9 +53,7 @@ async function logIn(req, res, next) {
                         expiresIn: '7d',
                     }
                 );
-                return res
-                    .status(200)
-                    .json({ message: 'Auth successful', token: token });
+                return res.status(200).send(token);
             } else return res.status(401).json({ message: 'Auth failed!' });
         });
     } catch (err) {
@@ -87,7 +82,7 @@ async function addDevices(req, res, next) {
 
             await user.updateOne({ $push: { devices: query._id } });
         }
-        return res.status(200).json({ message: 'ok', data: user });
+        return res.status(200).send(user);
     } catch (err) {
         next(err);
     }

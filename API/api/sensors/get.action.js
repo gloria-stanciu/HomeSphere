@@ -16,7 +16,11 @@ async function getSensorById(req, res, next) {
     const id = req.params.id;
     try {
         const sensor = await Sensor.findById(id);
-        res.status(200).send(sensor);
+        const currentValue = sensor.readings.slice(-1)[0];
+        res.status(200).send({
+            data: currentValue.data,
+            date: currentValue.date,
+        });
     } catch (err) {
         next(err);
     }

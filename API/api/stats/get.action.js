@@ -1,7 +1,6 @@
 const date_fns = require('date-fns');
 const mongoose = require('mongoose');
 const d3 = require('d3');
-const Device = mongoose.model('Device');
 const Sensor = mongoose.model('Sensor');
 
 async function meanOfSensorData(id) {
@@ -35,14 +34,8 @@ async function minMaxOfPeriod(id, days) {
         const min = d3.min(weekData);
         const max = d3.max(weekData);
         result = {
-            min: {
-                message: `Minimum value from the last ${days} days.`,
-                data: min,
-            },
-            max: {
-                message: `Maximum value from the last ${days} days.`,
-                data: max,
-            },
+            min: min,
+            max: max,
         };
         return result;
     } catch (err) {
@@ -172,19 +165,10 @@ async function callFunctions(req, res, next) {
             type
         );
         res.status(200).json({
-            mean: {
-                message: 'Mean value of sensor data',
-                data: meanData,
-            },
+            mean: meanData,
             minMax: minMaxPeriod,
-            maxValue: {
-                message: 'Max value of sensor data for every day',
-                result: getData,
-            },
-            meanValuesOfGivenPeriod: {
-                message: 'Mean values of every hour in the given period',
-                result: meanValuesOfGivenPeriod,
-            },
+            maxValue: getData,
+            meanValuesOfGivenPeriod: meanValuesOfGivenPeriod,
         });
     } catch (err) {
         next(err);

@@ -12,11 +12,11 @@ module.exports = {
     '/:id': {
         get: {
             action: getSensorById,
-            level: 'member',
+            level: 'public',
         },
         delete: {
             action: deleteSensorById,
-            level: 'member',
+            level: 'public',
         },
     },
     '/createAlias/:id': {
