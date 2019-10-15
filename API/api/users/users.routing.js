@@ -9,7 +9,7 @@ module.exports = {
             level: 'public',
         },
     },
-    '/:id': {
+    '/me': {
         get: {
             action: getUserById,
             level: 'member',

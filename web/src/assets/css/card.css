@@ -1,15 +1,15 @@
 .card {
-  @apply rounded-lg shadow-md bg-white overflow-hidden;
+  @apply rounded shadow-md bg-white overflow-hidden;
 }
 
 .card-header {
-  @apply p-3;
+  @apply py-3 px-6;
 }
 
 .card-body {
-  @apply p-3;
+  @apply py-3 px-6;
 }
 
 .card-footer {
-  @apply p-3;
+  @apply py-3 px-6;
 }

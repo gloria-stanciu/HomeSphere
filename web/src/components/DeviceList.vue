@@ -1,7 +1,6 @@
 <template>
-  <section class="w-full flex flex-col">
-    <div v-if="isLoading">Loading...</div>
-    <DeviceListItem v-else v-for="device in devices" :key="device._id" :device="device"></DeviceListItem>
+  <section class="w-full flex flex-col" v-if="!loading">
+    <DeviceListItem v-for="device in user.devices" :key="device._id" :device="device"></DeviceListItem>
   </section>
 </template>
 
@@ -13,28 +12,23 @@ export default {
   components: {
     DeviceListItem,
   },
+  props: {
+    devices: { type: Array, required: true },
+  },
   data: function() {
     return {
-      isLoading: true,
+      loading: true,
     }
   },
   computed: {
-    ...mapState(['devices']),
+    ...mapState(['user']),
   },
-  created() {
-    this.loadDevices()
+  mounted: async function() {
+    await this.fetchDevices(this.user.devices)
+    this.loading = false
   },
   methods: {
     ...mapActions(['fetchDevices']),
-
-    loadDevices: async function() {
-      try {
-        await this.fetchDevices()
-        this.isLoading = false
-      } catch (err) {
-        console.log(err)
-      }
-    },
   },
 }
 </script>

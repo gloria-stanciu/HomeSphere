@@ -1,5 +1,5 @@
 <template>
-  <header class="w-full h-16 flex flex-row fixed bg-white">
+  <header class="w-full h-16 flex flex-row fixed">
     <div class="container h-full flex flex-row items-center justify-between">
       <div class="brand">
         <span class="font-bold">HomeSphere</span>

@@ -72,24 +72,29 @@ async function addDevices(req, res, next) {
     const { userId } = jwt.decode(req.header('x-access-token'));
     const user = await User.findById(userId);
     const devices = req.body;
+    console.log(devices);
+    let device = null;
 
     try {
         for (const id of devices) {
-            const query = await Device.findById(id);
-            if (!query) return res.status(404).send('Device not found');
+            device = await Device.findById(id).populate({
+                path: 'sensors',
+                select: ['name', 'unit'],
+            });
+            if (!device) return res.status(404).send('Device not found.');
 
             const searchDevice = user.devices.find(deviceId => {
                 return id === deviceId;
             });
 
             if (searchDevice)
-                return res.status(500).send(`Device already exists`);
+                return res.status(500).send(`Device already added.`);
 
-            await user.updateOne({ $push: { devices: query._id } });
+            await user.updateOne({ $push: { devices: device._id } });
         }
-        return res.status(200).send(user);
+        return res.status(200).send(device);
     } catch (err) {
-        next(err);
+        return res.status(500).send('');
     }
 }
 

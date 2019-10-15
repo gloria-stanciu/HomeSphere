@@ -17,7 +17,10 @@ async function getAll(req, res, next) {
 async function getDeviceById(req, res, next) {
     const id = req.params.id;
     try {
-        const device = await Device.findById(id);
+        const device = await Device.findById(id).populate({
+            path: 'sensors',
+            select: ['name', 'unit'],
+        });
         res.status(200).send(device);
     } catch (err) {
         next(err);
