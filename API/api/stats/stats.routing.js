@@ -5,7 +5,7 @@ module.exports = {
     '/prediction/:id': {
         get: {
             action: predict,
-            level: 'public',
+            level: 'member',
         },
     },
     '/:id': {
