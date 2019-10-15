@@ -6,7 +6,7 @@
       <p class="text-gray-500">@{{ device.location }}</p>
       <p class="text-gray-500">{{ device._id }}</p>
     </div>
-    <SensorList :sensors="device.sensor"></SensorList>
+    <SensorList :sensors="device.sensors"></SensorList>
   </div>
 </template>
 

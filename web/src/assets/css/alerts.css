@@ -1,0 +1,7 @@
+.alert {
+  @apply p-3 border border-gray-200 bg-gray-100 rounded;
+}
+
+.alert-error {
+  @apply border-red-700 bg-red-100 text-red-700 font-medium;
+}

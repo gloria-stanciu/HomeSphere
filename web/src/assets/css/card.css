@@ -1,0 +1,15 @@
+.card {
+  @apply rounded-lg shadow-md bg-white overflow-hidden;
+}
+
+.card-header {
+  @apply p-3;
+}
+
+.card-body {
+  @apply p-3;
+}
+
+.card-footer {
+  @apply p-3;
+}
