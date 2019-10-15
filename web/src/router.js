@@ -29,6 +29,12 @@ const router = new Router({
   ],
 })
 
-router.beforeEach((to, from, next) => {})
+router.beforeEach((to, from, next) => {
+  if (to.meta.protected) {
+    try {
+      const token = localStorage.getItem('token')
+    } catch (err) {}
+  }
+})
 
 export default router
