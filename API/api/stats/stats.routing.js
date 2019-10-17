@@ -11,7 +11,7 @@ module.exports = {
     '/:id': {
         get: {
             action: callFunctions,
-            level: 'member',
+            level: 'public',
         },
     },
 };

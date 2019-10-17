@@ -1,4 +1,4 @@
-const { deleteDeviceById } = require('./delete.action');
+const { deleteDeviceById, deleteSensorFromDevice } = require('./delete.action');
 const { getAll, getDeviceById } = require('./get.action');
 const { updateDeviceById } = require('./patch.action');
 

@@ -49,6 +49,7 @@ async function maxValueOfEveryDay(id) {
         let dayValue = [];
         const now = new Date();
         const dateParse = date_fns.parseISO(now.toISOString());
+
         for (const reading of sensor.readings) {
             const date = reading.date.slice(0, 10);
             if (
@@ -101,8 +102,6 @@ async function meanValuesOfPeriod(id, startTime, type) {
         } else if (type === 'days') {
             for (const reading of sensor.readings) {
                 const date = reading.date.slice(0, 13);
-                console.log(date);
-                console.log(date_fns.parseISO(date));
                 if (
                     date_fns.isWithinInterval(date_fns.parseISO(date), {
                         start: date_fns.subDays(stopTimeParse, startTime),
