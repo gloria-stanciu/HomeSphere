@@ -70,7 +70,7 @@ async function maxValueOfEveryDay(id) {
         const dates = Object.keys(grouped);
         let maxDates = [];
         for (const i of dates) {
-            maxDates.push({ date: d3.isoParse(i), data: d3.max(grouped[i]) });
+            maxDates.push({ date: d3.isoParse(i), count: d3.max(grouped[i]) });
         }
         return maxDates;
     } catch (err) {
