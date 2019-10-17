@@ -43,6 +43,54 @@ async function minMaxOfPeriod(id, days) {
     }
 }
 
+// function rand(min, max) {
+//     if (min == null && max == null) return 0;
+
+//     if (max == null) {
+//         max = min;
+//         min = 0;
+//     }
+//     return min + Math.floor(Math.random() * (max - min + 1));
+// }
+
+// async function insertData(req, res, next) {
+//     try {
+//         const id = req.params.id;
+//         const sensor = await Sensor.findById(id);
+//         let newData = [];
+//         const start = date_fns.format(
+//             new Date(2019, 01, 01),
+//             "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"
+//         );
+//         for (
+//             let i = date_fns.format(
+//                 new Date(2019, 01, 01),
+//                 "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"
+//             );
+//             i <=
+//             date_fns.format(
+//                 new Date(2019, 10, 6),
+//                 "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"
+//             );
+//             date_fns.addDays(date_fns.parseISO(start), i)
+//         ) {
+//             // console.log(i);
+//             newData.push({
+//                 count: rand(18, 24),
+//                 date: i,
+//             });
+//         }
+//         newData.forEach(async element => {
+//             await sensor.updateOne({ $push: { readings: element } });
+//         });
+//         const a = await Sensor.findById(id);
+
+//         return res.status(200).send(a);
+//     } catch (err) {
+//         next(err);
+//     }
+// }
+
 async function maxValueOfEveryDay(id) {
     try {
         const sensor = await Sensor.findById(id);
@@ -78,7 +126,7 @@ async function maxValueOfEveryDay(id) {
     }
 }
 
-async function meanValuesOfPeriod(id, startTime, type) {
+async function valuesOfPeriod(id, startTime, type) {
     let interval = [];
     const stopTime = new Date();
     const stopTimeParse = date_fns.parseISO(stopTime.toISOString());
@@ -139,11 +187,16 @@ async function meanValuesOfPeriod(id, startTime, type) {
             };
         }, {});
         const dates = Object.keys(grouped);
-        let meanDates = [];
+        let selectedValues = [];
         for (const i of dates) {
-            meanDates.push({ date: d3.isoParse(i), data: d3.mean(grouped[i]) });
+            selectedValues.push({
+                date: d3.isoParse(i),
+                mean: d3.mean(grouped[i]),
+                min: d3.min(grouped[i]),
+                max: d3.max(grouped[i]),
+            });
         }
-        return meanDates;
+        return selectedValues;
     } catch (err) {
         return console.log(err);
     }
@@ -151,23 +204,19 @@ async function meanValuesOfPeriod(id, startTime, type) {
 
 async function callFunctions(req, res, next) {
     try {
-        const startTime = req.body.startTime;
-        const type = req.body.type;
-        const days = req.body.days;
+        const startTime = req.query.startTime;
+        const type = req.query.type;
+        const days = req.query.days;
         const id = req.params.id;
         const meanData = await meanOfSensorData(id);
         const minMaxPeriod = await minMaxOfPeriod(id, days);
         const getData = await maxValueOfEveryDay(id);
-        const meanValuesOfGivenPeriod = await meanValuesOfPeriod(
-            id,
-            startTime,
-            type
-        );
+        const valuesOfGivenPeriod = await valuesOfPeriod(id, startTime, type);
         res.status(200).json({
             mean: meanData,
             minMax: minMaxPeriod,
             maxValue: getData,
-            meanValuesOfGivenPeriod: meanValuesOfGivenPeriod,
+            valuesOfGivenPeriod: valuesOfGivenPeriod,
         });
     } catch (err) {
         next(err);
@@ -176,4 +225,5 @@ async function callFunctions(req, res, next) {
 
 module.exports = {
     callFunctions,
+    // insertData,
 };

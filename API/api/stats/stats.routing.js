@@ -14,4 +14,10 @@ module.exports = {
             level: 'public',
         },
     },
+    // '/insertData/:id': {
+    //     get: {
+    //         action: insertData,
+    //         level: 'public',
+    //     },
+    // },
 };

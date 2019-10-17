@@ -16,10 +16,11 @@ async function getSensorById(req, res, next) {
     const id = req.params.id;
     try {
         const sensor = await Sensor.findById(id);
+        const lastValues = sensor.aggregate({ $sort: { 'reading.date': -1 } });
         const currentValue = sensor.readings.slice(-1)[0];
         res.status(200).send({
-            data: currentValue.data,
-            date: currentValue.date,
+            data: lastValues.data,
+            date: lastValues.date,
         });
     } catch (err) {
         next(err);
