@@ -81,7 +81,7 @@ class Device:
                 del sensor['nof']
 
         i = 1
-        while i < nofCurrent:
+        while i < int(nofCurrent):
             sensorList.append({
                 'name': f'current-cost-{i}',
                 'method': currentMethod,
@@ -98,33 +98,31 @@ class Device:
                 while i < nof:
                     sensor['name'] = f'current-cost-{i}'
 
-        print(sensorList)
-        # self.mqtt.publish('devices/register', json.dumps(device))
-        # self.mqtt.publish('sensors/register', json.dumps(sensorList))
+        self.mqtt.publish('devices/register', json.dumps(device))
+        self.mqtt.publish('sensors/register', json.dumps(sensorList))
 
-        # while True:
-        #     sensorsData['deviceId'] = self.id
+        while True:
+            sensorsData['deviceId'] = self.id
 
-        #     for sensor in sensorsCopy:
-        #         method = sensor['method']
-        #         if 'current' in sensor['name']:
-        #             current_data = read_data.get(
-        #                 method, lambda: 'Invalid method')
-        #             i = 0
-        #             readData = current_data(sensor['nof'])
-        #             print('printing data')
-        #             for data in readData:
-        #                 print(data)
-        #                 sensorsData[f'{sensor["name"]}-{i}'] = data
-        #                 i += 1
-        #         else:
-        #             sensorsData[sensor['name']] = read_data.get(
-        #                 method, lambda: 'Invalid method')()
+            for sensor in sensorsCopy:
+                method = sensor['method']
+                if 'current' in sensor['name']:
+                    current_data = read_data.get(
+                        method, lambda: 'Invalid method')
+                    i = 0
+                    readData = current_data(sensor['nof'])
+                    for data in readData:
+                        print(data)
+                        sensorsData[f'{sensor["name"]}-{i}'] = data
+                        i += 1
+                else:
+                    sensorsData[sensor['name']] = read_data.get(
+                        method, lambda: 'Invalid method')()
 
-        #     time.sleep(2)
-        #     sensorsData['date'] = datetime.now().isoformat()
-        #     print(sensorsData)
-        #     self.mqtt.publish('sensors/readings', json.dumps(sensorsData))
+            time.sleep(2)
+            sensorsData['date'] = datetime.now().isoformat()
+            print(sensorsData)
+            self.mqtt.publish('sensors/readings', json.dumps(sensorsData))
 
         self.mqtt.loop_stop()
         self.mqtt.disconnect()

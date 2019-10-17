@@ -24,8 +24,12 @@ async function sendSensorReadings(client, message) {
     // });
     try {
         const device = await Device.findById(deviceId);
+        console.log('\n\n-------');
+        console.log(device);
         device.sensors.forEach(async sensor => {
             const queried = await Sensor.findById(sensor);
+            console.log(sensor);
+            console.log(queried.name);
             const reading = message[queried.name];
             await queried.updateOne({
                 $push: {

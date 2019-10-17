@@ -17,6 +17,7 @@
     "tailwindcss-grid": "^1.2.1",
     "vue": "^2.6.10",
     "vue-apexcharts": "^1.5.0",
+    "vue-calendar-heatmap": "^0.8.4",
     "vue-router": "^3.0.3",
     "vue-socket.io": "^3.0.7",
     "vuex": "^3.0.1"

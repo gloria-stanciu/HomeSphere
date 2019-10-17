@@ -7,16 +7,23 @@
       <p class="text-gray-500">{{ device._id }}</p>
     </div>
     <div class="grid grid-gap-4 grid-columns-2">
-      <CPU :sensor="cpu" class="col-span-1"></CPU>
+      <Gauges
+        :cpuData="cpu"
+        :diskData="disk"
+        :ramData="ram"
+        :diskTotal="device.disk_total"
+        :ramTotal="device.ram_total"
+        class="col-span-2"
+      ></Gauges>
     </div>
   </div>
 </template>
 
 <script>
-import CPU from './Sensors/CPU'
+import Gauges from './Sensors/Gauges'
 export default {
   components: {
-    CPU,
+    Gauges,
   },
   props: {
     device: Object,
@@ -30,6 +37,12 @@ export default {
   computed: {
     cpu: function() {
       return this.device.sensors.find(sensor => sensor.name === 'cpu')
+    },
+    disk: function() {
+      return this.device.sensors.find(sensor => sensor.name === 'disk_used')
+    },
+    ram: function() {
+      return this.device.sensors.find(sensor => sensor.name === 'ram_used')
     },
   },
   sockets: {
