@@ -1,8 +1,8 @@
 <template>
-  <div class="w-full h-full">
+  <div class="w-full h-full pb-3">
     <Header></Header>
     <div v-if="loading" class="loading w-full h-full flex items-center justify-center">Loading...</div>
-    <div v-else class="container pt-20 grid grid-gap-4 sm:grid-columns-2 lg:grid-columns-3">
+    <div v-else class="container pt-3 grid grid-gap-4 sm:grid-columns-2 lg:grid-columns-3">
       <div class="card w-full">
         <div class="card-header">
           <h1>Hello, {{ user.username }}!</h1>

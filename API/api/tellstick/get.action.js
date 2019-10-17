@@ -55,6 +55,7 @@ function deviceTurnOn(req, res, next) {
             oauth: { ...oauth },
         },
         function(error, response, body) {
+            console.log(error);
             if (error) return res.status(500).send(error);
             return res.status(200).send(JSON.parse(body));
         }

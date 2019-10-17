@@ -5,7 +5,6 @@ const levelFcts = {
         const token = req.header('x-access-token');
         try {
             const decoded = jwt.verify(token, process.env.JWT_KEY);
-            console.log('ceva');
             next();
         } catch (error) {
             return res

@@ -30,19 +30,16 @@ async function sendSensorReadings(client, message) {
             sum += element.data;
         });
         if (sum === 0) {
-            io.emit(`/sensor/${sensor._id}`, {
+            io.emit(`/notify/${sensor.name}`, {
                 message: 'No devices in the socket',
             });
         }
     }
     try {
         const device = await Device.findById(deviceId);
-        console.log('\n\n-------');
-        console.log(device);
+
         device.sensors.forEach(async sensor => {
             const queried = await Sensor.findById(sensor);
-            console.log(sensor);
-            console.log(queried.name);
             const reading = message[queried.name];
 
             io.emit(`/sensor/${queried._id}`, {

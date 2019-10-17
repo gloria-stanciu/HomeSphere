@@ -130,5 +130,43 @@ export default new Vuex.Store({
         throw new Error(err.response.data)
       }
     },
+    async getStats({ commit }, { id, startTime, type, days }) {
+      try {
+        const response = await http.get(
+          `/stats/${id}?startTime=${startTime}&type=${type}&days=${days}`
+        )
+        return response.data
+      } catch (err) {
+        throw new Error(err.response.data)
+      }
+    },
+    async forecast({ commit }, sensorId) {
+      try {
+        const response = await http.get(`/stats/prediction/${sensorId}`, {
+          headers: {
+            'x-access-token': localStorage.getItem('token'),
+          },
+        })
+        return response.data
+      } catch (err) {
+        throw new Error(err.response.data)
+      }
+    },
+    async turnOn({ commit }) {
+      try {
+        const response = await http.get('tellstick/device/TurnOn')
+        return response.data
+      } catch (err) {
+        throw new Error(err.response)
+      }
+    },
+    async turnOff({ commit }) {
+      try {
+        const response = await http.get('/tellstick/device/TurnOff')
+        return response.data
+      } catch (err) {
+        throw new Error(err.response)
+      }
+    },
   },
 })

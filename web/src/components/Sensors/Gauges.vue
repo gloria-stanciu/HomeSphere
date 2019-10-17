@@ -44,26 +44,26 @@ export default {
     ramTotal: { type: [String, Number], required: true },
   },
   mounted: function() {
-    this.getUsage()
+    this.liveFeed()
   },
   methods: {
-    ...mapActions(['getSensorReading']),
-    getUsage: async function() {
-      let response = null
-      try {
-        response = await this.getSensorReading(this.cpuData._id)
-        this.cpuChart.series = [response.data]
-        response = await this.getSensorReading(this.diskData._id)
+    liveFeed: function() {
+      this.sockets.subscribe(`/sensor/${this.cpuData._id}`, payload => {
+        console.log('cpu')
+        this.cpuChart.series = [payload.data]
+      })
+      this.sockets.subscribe(`/sensor/${this.diskData._id}`, payload => {
+        console.log('disk')
         this.diskChart.series = [
-          ((100 * response.data) / this.diskTotal).toFixed(2),
+          ((100 * payload.data) / this.diskTotal).toFixed(2),
         ]
-        response = await this.getSensorReading(this.ramData._id)
+      })
+      this.sockets.subscribe(`/sensor/${this.ramData._id}`, payload => {
+        console.log('ram')
         this.ramChart.series = [
-          ((100 * response.data) / this.ramTotal).toFixed(2),
+          ((100 * payload.data) / this.ramTotal).toFixed(2),
         ]
-      } catch (err) {
-        console.log(err)
-      }
+      })
     },
   },
 }

@@ -116,8 +116,6 @@ async function meanValuesOfPeriod(id, startTime, type) {
         } else if (type === 'hours') {
             for (const reading of sensor.readings) {
                 const date = reading.date.slice(0, 13);
-                console.log(date);
-                console.log(date_fns.parseISO(date));
                 if (
                     date_fns.isWithinInterval(date_fns.parseISO(date), {
                         start: date_fns.subHours(stopTimeParse, startTime),
@@ -151,9 +149,9 @@ async function meanValuesOfPeriod(id, startTime, type) {
 
 async function callFunctions(req, res, next) {
     try {
-        const startTime = req.body.startTime;
-        const type = req.body.type;
-        const days = req.body.days;
+        const startTime = req.query.startTime;
+        const type = req.query.type;
+        const days = req.query.days;
         const id = req.params.id;
         const meanData = await meanOfSensorData(id);
         const minMaxPeriod = await minMaxOfPeriod(id, days);

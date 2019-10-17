@@ -15,24 +15,34 @@
         :ramTotal="device.ram_total"
         class="col-span-2"
       ></Gauges>
+      <Tellstick class="col-span-2"></Tellstick>
+      <TemperatureMap :sensor="temp" class="col-span-2"></TemperatureMap>
+      <TemperaturePrediction :sensor="temp" class="col-span-2"></TemperaturePrediction>
+      <Current :sensors="current" class="col-span-2"></Current>
     </div>
   </div>
 </template>
 
 <script>
 import Gauges from './Sensors/Gauges'
+import TemperatureMap from './Sensors/TemperatureMap'
+import TemperaturePrediction from './Sensors/TemperaturePrediction'
+import Current from './Sensors/Current'
+import Tellstick from './Sensors/Tellstick'
+
 export default {
   components: {
     Gauges,
+    TemperatureMap,
+    TemperaturePrediction,
+    Current,
+    Tellstick,
   },
   props: {
     device: Object,
   },
   mounted() {
     console.log(this.device)
-    // this.sockets.subscribe(`reading/${this.device._id}`, payload => {
-    //   this.$store.dispatch('updateSensorReadings', payload.data)
-    // })
   },
   computed: {
     cpu: function() {
@@ -43,6 +53,14 @@ export default {
     },
     ram: function() {
       return this.device.sensors.find(sensor => sensor.name === 'ram_used')
+    },
+    temp: function() {
+      return this.device.sensors.find(sensor => sensor.name === 'temperature')
+    },
+    current: function() {
+      return this.device.sensors.filter(sensor =>
+        sensor.name.includes('current')
+      )
     },
   },
   sockets: {

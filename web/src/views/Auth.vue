@@ -1,7 +1,7 @@
 <template>
   <div class="w-full h-full">
     <Header></Header>
-    <section id="auth" class="container pt-20">
+    <section id="auth" class="container pt-3">
       <div class="card w-1/3">
         <div class="card-header">
           <h1>
