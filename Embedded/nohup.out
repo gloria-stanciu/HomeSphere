@@ -1,0 +1,8 @@
+{'device': {'_id': 'rpi:07102019153406:681636', 'name': 'raspberry_pi', 'location': 'dorm', 'disk_total': None, 'ram_total': None}, 'mqtt': {'broker': '167.71.42.195', 'client': 'rpi', 'usrnam': 'gloria', 'passwd': 'stanciu160499'}, 'sensors': [{'name': 'cpu', 'unit': '%', 'method': 'get_cpu_usage'}, {'name': 'ram_free', 'unit': 'MB', 'method': 'get_ram_free'}, {'name': 'ram_used', 'unit': 'MB', 'method': 'get_ram_used'}, {'name': 'disk_free', 'unit': 'GB', 'method': 'get_disk_free'}, {'name': 'disk_used', 'unit': 'GB', 'method': 'get_disk_used'}, {'name': 'temperature', 'unit': 'C', 'method': 'get_temp'}, {'name': 'pressure', 'unit': 'Atm', 'method': 'get_pressure'}, {'name': 'current_cost', 'unit': 'Watts', 'method': 'get_current', 'nof': '2'}]}
+configuring current cost sensors
+Traceback (most recent call last):
+  File "main.py", line 43, in <module>
+    device.start()
+  File "/app/HomeSphere/Embedded/lib/Device.py", line 84, in start
+    while i < nofCurrent:
+TypeError: '<' not supported between instances of 'int' and 'str'

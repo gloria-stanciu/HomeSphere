@@ -10,9 +10,10 @@ psutil = "*"
 smbus2 = "*"
 bme280 = "*"
 paho-mqtt = "*"
-io = "*"
 untangle = "*"
 serial = "*"
+pyserial = "*"
+rpi-bme280 = "*"
 
 [requires]
 python_version = "3.6.8"

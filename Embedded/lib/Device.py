@@ -53,6 +53,7 @@ class Device:
         return self.mqtt
 
     def start(self):
+        print('starting')
         sensorsCopy = copy.deepcopy(self.sensors)
         sensorList = {}
         sensorsData = {}
@@ -67,6 +68,7 @@ class Device:
             "disk_total": self.disk_total,
             "ram_total": self.ram_total
         }
+        print('2')
         sensorList['deviceId'] = self.id
         sensorList = self.sensors
         nofCurrent = 0
@@ -79,7 +81,7 @@ class Device:
                 currentMethod = sensor['method']
                 currentUnit = sensor['unit']
                 del sensor['nof']
-
+        print('3')
         i = 1
         while i < int(nofCurrent):
             sensorList.append({
@@ -87,19 +89,16 @@ class Device:
                 'method': currentMethod,
                 'unit': currentUnit
             })
+            i += 1
+
+        print('4')
 
         for sensor in sensorList:
             del sensor['method']
-            if 'current' in sensor['name']:
-                i = 0
-                nof = sensor['nof']
-                del sensor['nof']
-                sensorList.append()
-                while i < nof:
-                    sensor['name'] = f'current-cost-{i}'
 
         self.mqtt.publish('devices/register', json.dumps(device))
         self.mqtt.publish('sensors/register', json.dumps(sensorList))
+        print('5')
 
         while True:
             sensorsData['deviceId'] = self.id
@@ -111,6 +110,7 @@ class Device:
                         method, lambda: 'Invalid method')
                     i = 0
                     readData = current_data(sensor['nof'])
+                    print('printing data')
                     for data in readData:
                         print(data)
                         sensorsData[f'{sensor["name"]}-{i}'] = data

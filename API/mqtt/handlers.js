@@ -22,6 +22,19 @@ async function sendSensorReadings(client, message) {
     //         data: dataRead,
     //     },
     // });
+
+    function notifyUser(sensor) {
+        let sum = 0;
+        const lastMinuteData = sensor.readings.slice(-10);
+        lastMinuteData.forEach(element => {
+            sum += element.data;
+        });
+        if (sum === 0) {
+            io.emit(`/sensor/${sensor._id}`, {
+                message: 'No devices in the socket',
+            });
+        }
+    }
     try {
         const device = await Device.findById(deviceId);
         console.log('\n\n-------');
@@ -31,6 +44,14 @@ async function sendSensorReadings(client, message) {
             console.log(sensor);
             console.log(queried.name);
             const reading = message[queried.name];
+
+            io.emit(`/sensor/${queried._id}`, {
+                data: reading,
+                date: date,
+            });
+            if (queried.name.includes('current')) {
+                notifyUser(queried);
+            }
             await queried.updateOne({
                 $push: {
                     readings: {

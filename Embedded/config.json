@@ -1,9 +1,9 @@
 {
     "device": {
-        "_id": "310646de-5de2-404a-a0a8-8603eccf4981",
+        "_id": "rpi:07102019153406:681636",
         "name": "raspberry_pi",
         "location": "dorm",
-        "disk_total": "14.329120635986328",
+        "disk_total": "14.326778411865234",
         "ram_total": "948.3"
     },
     "mqtt": {
