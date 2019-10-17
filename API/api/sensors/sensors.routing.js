@@ -16,7 +16,7 @@ module.exports = {
         },
         delete: {
             action: deleteSensorById,
-            level: 'member',
+            level: 'public',
         },
     },
     '/createAlias/:id': {

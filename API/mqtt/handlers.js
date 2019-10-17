@@ -10,6 +10,8 @@ function sendTest(client, message) {
     return;
 }
 
+let sum = [];
+let count = [];
 async function sendSensorReadings(client, message) {
     const deviceId = message.deviceId;
     const date = message.date;
@@ -24,22 +26,18 @@ async function sendSensorReadings(client, message) {
     // });
 
     function notifyUser(sensor) {
-        let sum = 0;
-        const lastMinuteData = sensor.readings.slice(-10);
-        lastMinuteData.forEach(element => {
-            sum += element.data;
+        io.emit(`/sensor/${sensor._id}`, {
+            message: 'No devices in the socket',
         });
-        if (sum === 0) {
-            io.emit(`/notify/${sensor.name}`, {
-                message: 'No devices in the socket',
-            });
-        }
     }
     try {
+        let i = 0;
         const device = await Device.findById(deviceId);
-
         device.sensors.forEach(async sensor => {
-            const queried = await Sensor.findById(sensor);
+            const queried = await Sensor.findById(sensor).select([
+                'name',
+                '_id',
+            ]);
             const reading = message[queried.name];
 
             io.emit(`/sensor/${queried._id}`, {
@@ -47,7 +45,12 @@ async function sendSensorReadings(client, message) {
                 date: date,
             });
             if (queried.name.includes('current')) {
-                notifyUser(queried);
+                sum[i] += reading;
+                count[i]++;
+                if (sum[i] !== 0 && count[i] === 10) {
+                    notifyUser(queried);
+                }
+                i++;
             }
             await queried.updateOne({
                 $push: {
@@ -57,6 +60,7 @@ async function sendSensorReadings(client, message) {
                     },
                 },
             });
+            console.log(queried);
         });
     } catch (err) {
         console.log(err);
