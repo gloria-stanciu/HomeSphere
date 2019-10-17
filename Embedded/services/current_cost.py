@@ -59,19 +59,16 @@ def updateSensors(config):
 
 def get_current(totalReadings):
     nofReadings = 0
-    readings = []
+    readings = [0] * int(totalReadings)
     while True:
         xml = readXML()
         if xml and isXMLgood(xml):
+            readings[nofReadings] = int(xml.msg.ch1.watts.cdata)
             nofReadings += 1
+
             if nofReadings == int(totalReadings):
-                readings.append(float(xml.msg.ch1.watts.cdata))
+                print('Current Cost: ', readings)
                 return readings
-                print(readings)
-                break
-            else:
-                readings.append(float(xml.msg.ch1.watts.cdata))
+
         else:
-            print(readings)
-            break
-            return readings
+            pass
