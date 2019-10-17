@@ -1,8 +1,8 @@
-FROM node:alpine as build
+FROM node:10-buster as build
 
-RUN apk --no-cache add --virtual native-deps \
-  g++ gcc libgcc libstdc++ linux-headers autoconf automake make nasm python git && \
-  npm install --quiet node-gyp -g
+#RUN apk --no-cache add --virtual native-deps \
+#  g++ gcc libgcc libstdc++ linux-headers autoconf automake make nasm python git && \
+#  npm install --quiet node-gyp -g
 
 WORKDIR /app
 COPY . /app

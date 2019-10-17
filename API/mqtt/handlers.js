@@ -18,15 +18,8 @@ async function sendSensorReadings(client, message) {
     delete message.deviceId;
     delete message.date;
 
-    // io.emit(`reading/${deviceId}`, {
-    //     data: {
-    //         deviceId: deviceId,
-    //         data: dataRead,
-    //     },
-    // });
-
     function notifyUser(sensor) {
-        io.emit(`/sensor/${sensor._id}`, {
+        io.emit(`/api/sockets/sensor/${sensor._id}`, {
             message: 'No devices in the socket',
         });
     }
@@ -40,7 +33,7 @@ async function sendSensorReadings(client, message) {
             ]);
             const reading = message[queried.name];
 
-            io.emit(`/sensor/${queried._id}`, {
+            io.emit(`/api/sockets/sensor/${queried._id}`, {
                 data: reading,
                 date: date,
             });

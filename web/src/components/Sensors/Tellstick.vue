@@ -1,12 +1,15 @@
 <template>
   <div class="card grid grid-columns-3">
-    <div class="flex w-full h-full justify-center items-center" @click="ton">
+    <div class="flex w-full h-full justify-center items-center py-3 hover:bg-gray-200" @click="ton">
       <span>Turn On</span>
     </div>
     <div class="w-full h-full flex items-center justify-center">
       <img src="https://image.flaticon.com/icons/png/512/206/206470.png" alt class="h-6" />
     </div>
-    <div class="flex w-full h-full justify-center items-center" @click="toff">
+    <div
+      class="flex w-full h-full justify-center items-center py-3 hover:bg-gray-200"
+      @click="toff"
+    >
       <span>Turn Off</span>
     </div>
   </div>

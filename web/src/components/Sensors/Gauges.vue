@@ -48,22 +48,31 @@ export default {
   },
   methods: {
     liveFeed: function() {
-      this.sockets.subscribe(`/sensor/${this.cpuData._id}`, payload => {
-        console.log('cpu')
-        this.cpuChart.series = [payload.data]
-      })
-      this.sockets.subscribe(`/sensor/${this.diskData._id}`, payload => {
-        console.log('disk')
-        this.diskChart.series = [
-          ((100 * payload.data) / this.diskTotal).toFixed(2),
-        ]
-      })
-      this.sockets.subscribe(`/sensor/${this.ramData._id}`, payload => {
-        console.log('ram')
-        this.ramChart.series = [
-          ((100 * payload.data) / this.ramTotal).toFixed(2),
-        ]
-      })
+      this.sockets.subscribe(
+        `/api/sockets/sensor/${this.cpuData._id}`,
+        payload => {
+          console.log('cpu')
+          this.cpuChart.series = [payload.data]
+        }
+      )
+      this.sockets.subscribe(
+        `/api/sockets/sensor/${this.diskData._id}`,
+        payload => {
+          console.log('disk')
+          this.diskChart.series = [
+            ((100 * payload.data) / this.diskTotal).toFixed(2),
+          ]
+        }
+      )
+      this.sockets.subscribe(
+        `/api/sockets/sensor/${this.ramData._id}`,
+        payload => {
+          console.log('ram')
+          this.ramChart.series = [
+            ((100 * payload.data) / this.ramTotal).toFixed(2),
+          ]
+        }
+      )
     },
   },
 }

@@ -36,7 +36,9 @@ export default {
       loggedIn: false,
     }
   },
-  mounted: function() {},
+  mounted: function() {
+    checkToken()
+  },
   methods: {
     checkToken: function() {
       try {
