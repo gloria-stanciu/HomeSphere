@@ -4,7 +4,7 @@
       <h4>Current</h4>
       <div class="options">
         <select name="period" id="current-period" v-model="timePeriod">
-          <option value="0">Realtime</option>
+          <option value="0">Last 6 Hours</option>
           <option value="1">Last 24 Hours</option>
           <option value="2">Last 7 Days</option>
           <option value="3">Last Month</option>
@@ -12,21 +12,23 @@
       </div>
     </div>
     <div class="card-body">
+      <span class="font-bold text-blue-700 mr-6">Live - Current Cost 0: {{currentCost0}}</span>
+      <span class="font-bold text-green-500">Live - Current Cost 1: {{currentCost1}}</span>
       <div v-if="loading" class="loading">Loading</div>
       <vue-apex-charts
-        v-else-if="timePeriod > 0 && !loading"
+        v-else
         :series="chart.series"
         :options="chart.options"
         :type="'line'"
         :height="300"
       ></vue-apex-charts>
-      <vue-apex-charts
-        v-else-if="timePeriod === '0'"
-        :series="realtimechart.series"
-        :options="realtimechart.options"
-        :type="'line'"
-        :height="300"
-      ></vue-apex-charts>
+    </div>
+    <div v-if="notification" class="notification absolute left-0 bottom-0 m-6">
+      <div class="card" style="min-width: 200px !important;">
+        <div class="card-header bg-red-500 font-bold text-white">{{ notificationTitle }}</div>
+        <div class="card-body">{{ notification }}</div>
+        <div class="card-footer font-bold" @click="notification = notificationTitle = null">Dismiss</div>
+      </div>
     </div>
   </div>
 </template>
@@ -57,41 +59,32 @@ export default {
         },
         series: [],
       },
-      realtimechart: {
-        options: {
-          xaxis: {
-            categories: [],
-            labels: {
-              show: false,
-            },
-          },
-        },
-        series: [],
-      },
-      realtimeDates: [],
-      realtimeSeries: [],
+      notification: null,
+      notificationTitle: null,
+      currentCost0: 0,
+      currentCost1: 0,
     }
   },
   mounted: function() {
-    this.initChart()
+    this.real()
+    this.notify()
     this.populateChart(24, 'hours')
   },
   watch: {
     timePeriod: function(val) {
-      if (val === '0') {
-        this.realtime()
-      } else {
-        switch (this.timePeriod) {
-          case '1':
-            this.populateChart(24, 'hours')
-            break
-          case '2':
-            this.populateChart(7, 'days')
-            break
-          case '3':
-            this.populateChart(31, 'days')
-            break
-        }
+      switch (this.timePeriod) {
+        case '0':
+          this.populateChart(6, 'hours')
+          break
+        case '1':
+          this.populateChart(24, 'hours')
+          break
+        case '2':
+          this.populateChart(7, 'days')
+          break
+        case '3':
+          this.populateChart(31, 'days')
+          break
       }
     },
   },
@@ -110,11 +103,11 @@ export default {
           })
           this.chart.series.push({
             name: sensor.name,
-            data: response.meanValuesOfGivenPeriod.map(el => {
-              return el.data.toFixed(1)
+            data: response.valuesOfGivenPeriod.map(el => {
+              return el.mean.toFixed(1)
             }),
           })
-          this.chart.options.xaxis.categories = response.meanValuesOfGivenPeriod.map(
+          this.chart.options.xaxis.categories = response.valuesOfGivenPeriod.map(
             el => el.date
           )
           this.loading = false
@@ -123,23 +116,31 @@ export default {
         console.log(err)
       }
     },
-    initChart: function() {
-      for (const sensor of this.sensors) {
-        this.realtimeSeries.push({
-          name: sensor.name,
-          data: [],
-        })
-      }
-    },
-    realtime: function() {
+    real: function() {
       this.loading = false
-      // for (const sensor of this.sensors) {
-      //   this.sockets.subscribe(`/sensor/${sensor._id}`, payload => {
-      //     i
-      //     this.realtimeDates.push(payload.date)
-      //     if()
-      //   })
-      // }
+      this.sockets.subscribe(
+        `/api/sockets/sensor/5da3a8814162560018dcb1f9`,
+        payload => {
+          this.currentCost0 = payload.data
+        }
+      )
+      this.sockets.subscribe(
+        `/api/sockets/sensor/5da3a8814162560018dcb1fa`,
+        payload => {
+          this.currentCost1 = payload.data
+        }
+      )
+    },
+    notify: function() {
+      for (const sensor of this.sensors) {
+        this.sockets.subscribe(
+          `/api/sockets/sensor/${sensor._id}/notify`,
+          payload => {
+            this.notification = payload.message
+            this.notificationTitle = payload.title
+          }
+        )
+      }
     },
   },
 }

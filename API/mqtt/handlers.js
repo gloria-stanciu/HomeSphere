@@ -10,8 +10,8 @@ function sendTest(client, message) {
     return;
 }
 
-let sum = [];
-let count = [];
+let sum = {};
+let count = {};
 async function sendSensorReadings(client, message) {
     const deviceId = message.deviceId;
     const date = message.date;
@@ -19,8 +19,9 @@ async function sendSensorReadings(client, message) {
     delete message.date;
 
     function notifyUser(sensor) {
-        io.emit(`/api/sockets/sensor/${sensor._id}`, {
-            message: 'No devices in the socket',
+        io.emit(`/api/sockets/sensor/${sensor._id}/notify`, {
+            title: sensor.name,
+            message: 'This device is no longer online!',
         });
     }
     try {
@@ -37,11 +38,20 @@ async function sendSensorReadings(client, message) {
                 data: reading,
                 date: date,
             });
+            console.log(queried);
             if (queried.name.includes('current')) {
-                sum[i] += reading;
-                count[i]++;
-                if (sum[i] !== 0 && count[i] === 10) {
+                if (!sum[queried.name]) sum[queried.name] = 0;
+                if (!count[queried.name]) count[queried.name] = 0;
+                sum[queried.name] += reading;
+                count[queried.name]++;
+                console.log(sum, count);
+                if (sum[queried.name] === 0 && count[queried.name] === 10) {
                     notifyUser(queried);
+                    sum[queried.name] = 0;
+                    count[queried.name] = 0;
+                } else if (count[queried.name] >= 10) {
+                    sum[queried.name] = 0;
+                    count[queried.name] = 0;
                 }
                 i++;
             }
@@ -53,7 +63,6 @@ async function sendSensorReadings(client, message) {
                     },
                 },
             });
-            console.log(queried);
         });
     } catch (err) {
         console.log(err);

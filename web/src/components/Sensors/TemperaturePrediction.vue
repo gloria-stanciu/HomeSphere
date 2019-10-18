@@ -51,13 +51,11 @@ export default {
     ...mapActions(['forecast']),
     populateChart: async function() {
       try {
-        // FIXME: startTime=0, type=["days", "months", "hours"], days=10
         const response = await this.forecast(this.sensor._id)
         response.forEach(el => {
           this.chart.options.xaxis.categories.push(el.date)
           this.chart.series[0].data.push(el.data)
         })
-        console.log(response)
         this.loading = false
       } catch (err) {
         console.log(err)

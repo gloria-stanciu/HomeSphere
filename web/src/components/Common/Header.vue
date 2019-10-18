@@ -37,7 +37,7 @@ export default {
     }
   },
   mounted: function() {
-    checkToken()
+    this.checkToken()
   },
   methods: {
     checkToken: function() {
