@@ -21,7 +21,7 @@
         "jsonwebtoken": "^8.5.1",
         "lodash": "^4.17.15",
         "lumie": "^0.1.1",
-        "mongoose": "^5.7.1",
+        "mongoose": "^5.7.5",
         "morgan": "^1.9.1",
         "mqtt": "^3.0.0",
         "pretty-error": "^2.1.1",
